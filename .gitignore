@@ -1,0 +1,8 @@
+.DS_Store
+.vscode
+
+node_modules/
+build/
+
+public/bundle.js
+public/bundle.js.map
