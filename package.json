@@ -28,6 +28,8 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "@polkadot/api": "^2.2.1",
+    "@polkadot/api-contract": "^2.2.1",
     "sirv-cli": "^1.0.0"
   }
 }
