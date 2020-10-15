@@ -4,5 +4,7 @@
 node_modules/
 build/
 
+report.20201013.121557.79564.0.001.json
+
 public/bundle.js
 public/bundle.js.map
