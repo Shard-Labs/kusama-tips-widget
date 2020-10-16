@@ -1,10 +1,10 @@
 <script>
   import "./main.css";
 
+
+  window.onload = function toggleOverlay() {
   let btn = document.getElementById("btnOverlay");
   let overlay = document.getElementById("widget");
-
-  function toggleOverlay() {
     btn.addEventListener("click", function () {
       overlay.style.display = "block";
     });
@@ -12,15 +12,13 @@
       overlay.style.display = "none";
     });
   }
-
-window.onload = toggleOverlay;
   
 </script>
 
 <section>
   <div>
     <button
-      on:click={toggleOverlay}
+      on:click = {toggleOverlay()}
       id="btnOverlay"
       class="inline-block bg-blue-500 py-2 px-6 m-auto text-gray-100 uppercase
         text-lg rounded">tip me</button>
