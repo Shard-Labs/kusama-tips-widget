@@ -1,42 +1,26 @@
-<script>
+<script lang="typescript">
   import "./main.css";
+  import {
+    web3Enable,
+    web3Accounts,
+    isWeb3Injected,
+  } from "@polkadot/extension-dapp";
   import { ApiPromise, WsProvider } from "@polkadot/api";
-  import { Keyring } from "@polkadot/keyring";
-
-  const alice = keyring.addFromUri("//Alice", { name: "Alice default" });
-  console.log(
-    `${alice.meta.name}: has adress ${alice.address} with public key [${alice.publicKey}]`
-  );
-
-  //Alice account
-  //const Alice = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY";
 
   async function main() {
-    //Initialise the provider to conect to westend testnet
-    // let wsProvider = new WsProvider("wss://westend-rpc.polkadot.io/");
+    await web3Enable("Kusama Tips Widget");
 
-    //Initialise the provider to conect to local node
-    let wsProvider = new WsProvider("ws://127.0.0.1:9944");
+    if (isWeb3Injected) {
+      let accounts = await web3Accounts();
+      const provider = new WsProvider("wss://kusama-rpc.polkadot.io/");
+      const api = await ApiPromise.create({ provider });
 
-    //Create the API and wait untill ready
-    let api = new ApiPromise({ provider: wsProvider });
-    await api.isReady;
-
-    //Retrieve the chain and node information
-    let [chain, nodeName, nodeVersion] = await Promise.all([
-      api.rpc.system.chain(),
-      api.rpc.system.name(),
-      api.rpc.system.version(),
-    ]);
-
-    console.log(
-      `Connected to chain ${chain} using ${nodeName} v${nodeVersion}`
-    );
+      if (accounts.length > 0) {
+        let result = await api.derive.balances.account(accounts[0].address);
+        console.log(result);
+      }
+    }
   }
-
-  main()
-    .catch(console.error)
-    .finally(() => process.exit());
 </script>
 
 <div
@@ -46,5 +30,5 @@
   <button
     on:click={main}
     class="inline-block bg-blue-500 py-2 px-6 m-auto text-gray-100 uppercase
-      text-lg rounded">tip me</button>
+      text-lg rounded">Connect</button>
 </div>
