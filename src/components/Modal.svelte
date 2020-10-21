@@ -6,22 +6,22 @@
   const close = () => dispatch("close");
 </script>
 
-<div class="modal-continer relative">
+<div class="relative">
   <div
     id="modal"
     role="dialog"
     aria-modal="true"
-    class="modal absolute w-1/3 inset-x-0 mx-auto rounded shadow-md bg-white
+    class="absolute w-1/3 inset-x-0 mx-auto rounded shadow-md bg-white
     bg-opacity-100 z-50 ">
-    <div class="modal-header px-8 py-6 flex justify-between items-baseline">
-      <slot class="modal-title text-xl text-gray-900 leading 8" />
-      <button on:click={close} id="close" class="modal-close ">close</button>
+    <div id="modal-header" class="px-8 py-6 flex justify-between items-baseline">
+      <slot id="modal-title" class="text-xl text-gray-900 leading 8" />
+      <button on:click={close} id="button-close" class=""><i class="fas fa-times"></i></button>
     </div>
     <hr />
-    <div class="modal-body px-8 py-6">
-      <MultistepModal />
+    <div id="modal-body" class=" px-8 py-6">
+      <slot />
     </div>
-    <div class="modal-footer px-8 py-6 flex">
+    <div id="modal-footer" class="px-8 py-6 flex">
       <slot />
     </div>
   </div>

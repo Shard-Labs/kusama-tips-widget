@@ -3,9 +3,12 @@
   import "./main.css";
 
   let showModal = false;
+
 </script>
 
 <div id="wrapper">
+
+
   <button
     on:click={() => (showModal = true)}
     id="btnOverlay"
@@ -13,9 +16,9 @@
       text-lg rounded">Tip me
   </button>
 
+
   {#if showModal}
     <Modal on:close={() => (showModal = false)} />
-
     <div
       id="widget"
       class="fixed inset-0 flex overflow-hidden w-screen h-screen z-10 bg-black
