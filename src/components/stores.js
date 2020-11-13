@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 
+
 export function createMultistep() {
   const { subscribe, set, update } = writable(0);
 
@@ -10,6 +11,3 @@ export function createMultistep() {
     reset: () => set(0)
   };
 };
-
-
-

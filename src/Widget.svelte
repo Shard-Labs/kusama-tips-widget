@@ -28,7 +28,7 @@
     on:click={() => (showModal = true)}
     id="btnOverlay"
     class="inline-block bg-blue-500 py-2 px-6 m-auto text-gray-100 uppercase
-    text-lg rounded">
+    text-lg rounded hover:bg-blue-700">
     Tip me
   </button>
 
