@@ -21,62 +21,48 @@
     context.accounts.set(await web3Accounts());
     context.multistep.nextStep();
 
-    let api = new ApiPromise({ provider });
-    await api.isReady;
+    // let api = new ApiPromise({ provider });
+    // await api.isReady;
 
-    let [chain, nodeName, nodeVersion] = await Promise.all([
-      api.rpc.system.chain(),
-      api.rpc.system.name(),
-      api.rpc.system.version(),
-    ]);
+    // let [chain, nodeName, nodeVersion] = await Promise.all([
+    //   api.rpc.system.chain(),
+    //   api.rpc.system.name(),
+    //   api.rpc.system.version(),
+    // ]);
 
-    console.log(
-      `Connected to chain ${chain} using ${nodeName} v${nodeVersion}`
-    );
+    // console.log(
+    //   `Connected to chain ${chain} using ${nodeName} v${nodeVersion}`
+    // );
   };
 </script>
 
 <Modal index={0} on:close {selected}>
-  <h2 slot="header" class="text-xl text-gray-900 leading 8">
-    Connect to Polkadot
-  </h2>
+  <h2 slot="header" class="text-lg text-gray-900">Connect to Polkadot</h2>
 
-  <div slot="content" class="bg-white rounded shadow p-4 m-8">
-    <p class="text-sm text-gray-500">
-      In order to use a Tip or Donate button you must have Polkadot Wallet
-      installed and funded with KSM tokens.
-    </p>
-    <div class="text-base text-gray-700 ">
-      <p class="pt-4">Installation:</p>
-      <ul>
-        <li>
-          On Chrome, install via
-          <a
-            href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd"
-            target=" _blank"
-            rel="noopener noreferrer"
-            class="underline">
-            Chrome web store
-          </a>
-        </li>
-        <li>
-          On Firefox, install via
-          <a
-            href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/"
-            target=" _blank"
-            rel="noopener noreferrer"
-            class="underline">
-            Firefox add-ons
-          </a>
-        </li>
-      </ul>
+  <div slot="content">
+    <div class="bg-white rounded shadow p-8 mb-8">
+      <p class="text-sm text-gray-500 mb-4">
+        In order to use a Tip or Donate button you must have Polkadot Wallet
+        installed and funded with KSM tokens.
+      </p>
+      <div class="text-base text-gray-700">
+        <div class="py-2 font-semibold">Extensions:</div>
+        <ul>
+          <li class="text-sm">
+            On Google Chrome, install via <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" target=" _blank" rel="noopener noreferrer" class="underline"> Chrome
+              web store </a>
+          </li>
+          <li class="text-sm">
+            On Firefox, install via <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" target=" _blank" rel="noopener noreferrer" class="underline"> Firefox
+              add-ons </a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <button
+      on:click={connect}
+      class="block bg-accent py-2 px-6 text-white font-semibold rounded mx-auto">
+      Connect
+    </button>
   </div>
-  <button
-    slot="footer"
-    on:click={connect}
-    class="inline-block bg-blue-500 py-2 px-6 m-auto text-gray-100 uppercase
-    text-lg rounded hover:bg-blue-700">
-    Connect
-  </button>
 </Modal>
