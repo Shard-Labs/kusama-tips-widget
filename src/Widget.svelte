@@ -7,7 +7,7 @@
   import SelectAccount from "./components/modals/SelectAccount.svelte";
   import Tipping from "./components/modals/Tipping.svelte";
 
-  let showModal = true;
+  let showModal = false;
   let multistep = createMultistep();
 
   setContext("global", {
