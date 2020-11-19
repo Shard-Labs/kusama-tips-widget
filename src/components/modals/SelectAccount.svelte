@@ -10,19 +10,18 @@
 </script>
 
 <Modal index={1} on:close {selected}>
-  <h2 slot="header" class="text-xl text-gray-900 leading 8">
-    Select Polkadot Account
-  </h2>
-  <ul slot="content">
+  <h2 slot="header" class="text-lg text-dark">Select Polkadot Account</h2>
+  <ul slot="content" style="max-height: 350px; overflow-y: scroll;">
     {#each $accounts as account}
       <li
-        class="text-sm text-gray-700 rounded shadow p-4 m-8 bg-white truncate
-        hover:bg-gray-100"
+        class="text-sm text-medium rounded shadow p-4 mb-4 bg-white truncate
+        cursor-pointer hover:bg-light"
         on:click={() => {
           context.selectedAccount.set(account);
           context.multistep.nextStep();
         }}>
-        {account.address}
+        <div class="font-semibold">{account.meta.name}</div>
+        <div class="text-medium truncate">{account.address}</div>
       </li>
     {/each}
   </ul>

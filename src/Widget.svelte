@@ -13,28 +13,27 @@
   setContext("global", {
     multistep,
     accounts: writable([]),
-    selectedAccount:writable(null),
+    selectedAccount: writable(null),
   });
 
   function handleClose() {
     showModal = false;
     multistep.reset();
-  }; 
-
+  }
 </script>
 
 <div id="wrapper">
   <button
     on:click={() => (showModal = true)}
     id="btnOverlay"
-    class="inline-block bg-blue-500 py-2 px-6 m-auto text-gray-100 uppercase
-    text-lg rounded hover:bg-blue-700">
+    class="inline-block bg-accent py-2 px-6 m-auto text-light uppercase
+    text-lg rounded hover:bg-dark">
     Tip me
   </button>
 
   {#if showModal}
-    <Connect on:close={ handleClose} />
-    <SelectAccount on:close={handleClose}/>
+    <Connect on:close={handleClose} />
+    <SelectAccount on:close={handleClose} />
     <Tipping on:close={handleClose} />
     <div
       id="widget"

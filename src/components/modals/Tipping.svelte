@@ -18,12 +18,11 @@
 </script>
 
 <Modal index={2} on:close {selected}>
-  <div slot="header" class="flex flex-wrap ">
-    <span class="text-xs text-gray-700 truncate">
-      {$selectedAccount.address}
-    </span>
+  <div slot="header" class="flex flex-col">
+    <div class="font-semibold">{$selectedAccount.meta.name}</div>
+    <div class="text-xs text-medium truncate">{$selectedAccount.address}</div>
     <span
-      class="text-xs text-blue-500"
+      class="text-xs text-dark cursor-pointer self-end"
       on:click={() => {
         context.selectedAccount.set(null);
         context.multistep.previousStep();
@@ -31,7 +30,7 @@
       Change account
     </span>
   </div>
-  <div slot="content" class="px-20 py-4 bg-white">
+  <div slot="content" class="p-8 bg-white shadow rounded">
     <Tabs {items} />
   </div>
 </Modal>

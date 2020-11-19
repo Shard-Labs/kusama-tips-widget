@@ -2,27 +2,26 @@
 </script>
 
 <form>
-  <div class="flex justify between mt-2">
-    <span class="text-xs text-gray-300">Amount</span>
-    <span class="text-xs text-gray-300 ml-auto">Available:</span>
+  <div class="flex justify-between mt-2 leading-loose">
+    <span class="text-xs text-medium">Amount</span>
+    <span class="text-xs text-medium">Available:</span>
   </div>
   <input
     type="text"
-    class="bg-white focus:bg-gray-100 border border-solid border-gray-400
-    focus:border-blue-500 rounded w-full" />
-  <div class="flex justify between">
-    <span class="text-xs text-gray-500">Deposit required: 1KSM</span>
-    <span class="text-xs text-gray-300 ml-auto">Fee: 0.02KSM</span>
+    class="bg-white focus:bg-light border border-solid border-medium
+    focus:border-accent rounded w-full p-2" />
+  <div class="flex justify-between leading-loose mb-2">
+    <span class="text-xs text-medium">Deposit required: 1KSM</span>
+    <span class="text-xs text-medium">Fee: 0.02KSM</span>
   </div>
-  <span class="text-xs text-gray-300 mt-2">Tip message:</span>
+  <span class="text-xs text-medium leding-loose">Tip message:</span>
   <input
     type="text"
-    class="bg-white focus:bg-gray-100 border border-solid border-gray-400
-    focus:border-blue-500 rounded block w-full" />
-
+    class="bg-white focus:bg-light border border-solid border-medium 
+    focus:border-accent rounded block w-full p-2" />
   <button
-    class="inline-block bg-blue-500 py-2 px-6 m-auto mt-4 text-gray-100
-    uppercase text-lg rounded w-full hover:bg-blue-700">
+    class="block bg-accent py-2 px-6 mx-auto mt-4 text-light text-sm rounded
+    hover:bg-dark">
     Propose tip
   </button>
 </form>
