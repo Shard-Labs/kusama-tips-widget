@@ -43,7 +43,7 @@ module.exports = {
         use: {
           loader: "svelte-loader",
           options: {
-            emitCss: true,
+            emitCss: false,
             hotReload: true,
             preprocess: sveltePreprocess(),
           },
@@ -51,7 +51,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader'],
+        use: ["file-loader"],
       },
       {
         test: /\.css$/,

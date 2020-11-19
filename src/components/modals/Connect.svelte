@@ -1,17 +1,12 @@
 <script>
   import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
-  import { ApiPromise, WsProvider } from "@polkadot/api";
   import { getContext } from "svelte";
   import Modal from "../Modal.svelte";
 
   let context = getContext("global");
-  let selected = context.multistep;
-
-  context.multistep.subscribe((n) => (selected = n));
 
   const connect = async () => {
     const extensions = await web3Enable("Kusama Tips Widget");
-    const provider = new WsProvider("wss://westend-rpc.polkadot.io/");
 
     if (extensions.length === 0) {
       alert("Please install Polkadot extension!");
@@ -20,23 +15,10 @@
     }
     context.accounts.set(await web3Accounts());
     context.multistep.nextStep();
-
-    // let api = new ApiPromise({ provider });
-    // await api.isReady;
-
-    // let [chain, nodeName, nodeVersion] = await Promise.all([
-    //   api.rpc.system.chain(),
-    //   api.rpc.system.name(),
-    //   api.rpc.system.version(),
-    // ]);
-
-    // console.log(
-    //   `Connected to chain ${chain} using ${nodeName} v${nodeVersion}`
-    // );
   };
 </script>
 
-<Modal index={0} on:close {selected}>
+<Modal on:close>
   <h2 slot="header" class="text-lg text-gray-900">Connect to Polkadot</h2>
 
   <div slot="content">

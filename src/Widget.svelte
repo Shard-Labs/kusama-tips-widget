@@ -1,6 +1,6 @@
 <script>
   import "./main.css";
-  import { createMultistep } from "./components/stores";
+  import { createApiProvider, createMultistep } from "./components/stores";
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
   import Connect from "./components/modals/Connect.svelte";
@@ -14,12 +14,22 @@
     multistep,
     accounts: writable([]),
     selectedAccount: writable(null),
+    provider: createApiProvider(),
   });
 
   function handleClose() {
     showModal = false;
     multistep.reset();
   }
+
+  let modals = [
+    { component: Connect },
+    { component: SelectAccount },
+    { component: Tipping },
+  ];
+
+  let selected = modals[0];
+  multistep.subscribe((index) => (selected = modals[index]));
 </script>
 
 <div id="wrapper">
@@ -31,9 +41,7 @@
   </button>
 
   {#if showModal}
-    <Connect on:close={handleClose} />
-    <SelectAccount on:close={handleClose} />
-    <Tipping on:close={handleClose} />
+    <svelte:component this={selected.component} on:close={handleClose} />
     <div
       id="widget"
       class="fixed inset-0 flex overflow-hidden w-screen h-screen z-10 bg-black

@@ -1,23 +1,33 @@
 <script>
-  import { getContext } from "svelte";
+  import { getContext, onDestroy } from "svelte";
   import Modal from "../Modal.svelte";
-  import Tab1 from "./tabs/TipTab.svelte";
-  import Tab2 from "./tabs/DonateTab.svelte";
+  import TipTab from "./tabs/TipTab.svelte";
+  import DonateTab from "./tabs/DonateTab.svelte";
   import Tabs from "./tabs/Tabs.svelte";
+  import Loader from "../common/SyncLoader.svelte";
+  import { web3FromAddress } from "@polkadot/extension-dapp";
 
   let context = getContext("global");
-  let selected = context.multistep;
   let selectedAccount = context.selectedAccount;
-
-  context.multistep.subscribe((n) => (selected = n));
+  let provider = context.provider;
 
   let items = [
-    { label: "Tip", component: Tab1 },
-    { label: "Donate", component: Tab2 },
+    { label: "Tip", component: TipTab },
+    { label: "Donate", component: DonateTab },
   ];
+
+  let loading = true;
+  let unsub = provider.subscribe(async (api) => {
+    if (!api) return;
+    const injector = await web3FromAddress($selectedAccount.address);
+    api.setSigner(injector.signer);
+  });
+  provider.connect().then(() => (loading = false));
+
+  onDestroy(() => unsub());
 </script>
 
-<Modal index={2} on:close {selected}>
+<Modal on:close>
   <div slot="header" class="flex flex-col">
     <div class="text-xs text-gray-800 truncate">{$selectedAccount.address}</div>
     <span
@@ -30,6 +40,15 @@
     </span>
   </div>
   <div slot="content" class="p-8 bg-white shadow rounded">
-    <Tabs {items} />
+    {#if loading}
+      <div
+        class="flex flex-col justify-center items-center box-border"
+        style="height: 273px">
+        <Loader />
+        <p class="text-sm text-gray-800">Connecting to Polkadot</p>
+      </div>
+    {:else}
+      <Tabs {items} />
+    {/if}
   </div>
 </Modal>

@@ -1,18 +1,35 @@
 <script>
+  import { getContext, onMount } from "svelte";
+
+  let context = getContext("global");
+  let selectedAccount = context.selectedAccount;
+  let provider = context.provider;
+
+  let balance = 0;
+
+  onMount(async () => {
+    let account = await $provider.query.system.account(
+      $selectedAccount.address
+    );
+    balance = account.data.free.toHuman();
+  });
 </script>
 
 <form>
   <div class="flex justify between mt-2 leading-loose">
     <span class="text-xs text-gray-500">Amount</span>
-    <span class="text-xs text-gray-500 ml-auto">Available: 5 KSM</span>
+    <span class="text-xs text-gray-500 ml-auto">Available: {balance}</span>
   </div>
   <input
-    type="text"
+    type="number"
     class="bg-white focus:bg-gray-100 border border-solid border-gray-400
       rounded block w-full p-2" />
-
-  <span class="text-xs text-gray-500 block leading-loose mb-2">Fee: 0.02 KSM</span>
-  <span class="text-xs text-gray-500 block leading-loose">Message (Optional):</span>
+  <div class="text-xs text-gray-500 leading-loose mb-2">
+    Deposit required: 1 KSM
+  </div>
+  <div class="text-xs text-gray-500 block leading-loose">
+    Message (Optional):
+  </div>
   <input
     type="text"
     class="block bg-white focus:bg-gray-100 border border-solid border-gray-400

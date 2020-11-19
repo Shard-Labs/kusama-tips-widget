@@ -3,13 +3,10 @@
   import Modal from "../Modal.svelte";
 
   let context = getContext("global");
-  let selected = context.multistep;
-
-  context.multistep.subscribe((n) => (selected = n));
   let accounts = context.accounts;
 </script>
 
-<Modal index={1} on:close {selected}>
+<Modal on:close>
   <h2 slot="header" class="text-lg text-gray-900">Select Polkadot Account</h2>
   <ul slot="content" style="max-height: 400px">
     {#each $accounts as account}
