@@ -18,10 +18,5 @@
     </li>
   {/each}
 </ul>
-{#each items as item, i}
-  {#if selectedIndex == i}
-    <div>
-      <svelte:component this={item.component} />
-    </div>
-  {/if}
-{/each}
+
+<svelte:component this={items[selectedIndex].component} />
