@@ -1,5 +1,5 @@
 import Widget from "./Widget.svelte";
 
-export const bind = ({ target }) => {
-  return new Widget({ target });
+export const bind = ({ target, beneficiary }) => {
+  return new Widget({ target, props: { beneficiary } });
 };

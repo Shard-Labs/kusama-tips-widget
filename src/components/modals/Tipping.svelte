@@ -1,7 +1,7 @@
 <script>
   import { getContext, onDestroy } from "svelte";
   import Modal from "../Modal.svelte";
-  import TipTab from "./tabs/TipTab.svelte";
+  import ProposeTipTab from "./tabs/ProposeTipTab.svelte";
   import DonateTab from "./tabs/DonateTab.svelte";
   import Tabs from "./tabs/Tabs.svelte";
   import Loader from "../common/SyncLoader.svelte";
@@ -12,7 +12,7 @@
   let provider = context.provider;
 
   let items = [
-    { label: "Tip", component: TipTab },
+    { label: "Propose Tip", component: ProposeTipTab },
     { label: "Donate", component: DonateTab },
   ];
 

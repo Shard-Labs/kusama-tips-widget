@@ -25,7 +25,7 @@
     <div class="bg-white rounded shadow p-8 mb-8">
       <p class="text-sm text-gray-500 mb-4">
         In order to use a Tip or Donate button you must have Polkadot Wallet
-        installed and funded with KSM tokens.
+        installed and funded with tokens.
       </p>
       <div class="text-base text-gray-700">
         <div class="py-2 font-semibold">Extensions:</div>

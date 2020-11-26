@@ -7,10 +7,13 @@
   import SelectAccount from "./components/modals/SelectAccount.svelte";
   import Tipping from "./components/modals/Tipping.svelte";
 
+  export let beneficiary;
+
   let showModal = false;
   let multistep = createMultistep();
 
   setContext("global", {
+    beneficiary,
     multistep,
     accounts: writable([]),
     selectedAccount: writable(null),
