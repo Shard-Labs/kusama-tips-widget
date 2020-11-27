@@ -19,7 +19,7 @@ export function createApiProvider() {
     subscribe,
     update,
     connect: async () => {
-      console.log("Connecting to polkadot");
+      console.log("Connecting to Westend...");
       const provider = new WsProvider("wss://westend-rpc.polkadot.io/");
 
       let api = new ApiPromise({ provider });

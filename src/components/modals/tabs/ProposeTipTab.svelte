@@ -21,6 +21,7 @@
   });
 
   const onSubmit = async (e) => {
+    // for council members: $provider.tx.treasury.tipNew
     let tx = await $provider.tx.treasury.reportAwesome(
       reason,
       context.beneficiary
@@ -31,19 +32,14 @@
 
 <form on:submit|preventDefault={onSubmit}>
   <div class="flex justify-between mt-2 leading-loose">
-    <span class="text-xs text-gray-500">Amount</span>
+    <span class="text-xs text-gray-500">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
     <span class="text-xs text-gray-500" class:invisible={!balance}>Available: {balance}</span>
   </div>
   <input
     type="number"
     class="bg-white focus:bg-gray-100 border border-solid border-gray-400
-      focus:border-blue-500 rounded w-full p-2"
+      focus:border-blue-500 rounded w-full p-2 mb-2"
     bind:value={amount} />
-  <div
-    class="text-xs text-gray-500 leading-loose mb-2"
-    class:invisible={!tokenSymbol}>
-    Deposit required: 1 {tokenSymbol}
-  </div>
   <div class="text-xs text-gray-500 leading-loose">Reason:</div>
   <input
     type="text"

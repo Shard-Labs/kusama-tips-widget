@@ -12,8 +12,8 @@
   let provider = context.provider;
 
   let items = [
-    { label: "Propose Tip", component: ProposeTipTab },
     { label: "Donate", component: DonateTab },
+    { label: "Propose Tip", component: ProposeTipTab },
   ];
 
   let loading = true;
@@ -45,7 +45,7 @@
         class="flex flex-col justify-center items-center box-border"
         style="height: 273px">
         <Loader />
-        <p class="text-sm text-gray-800">Connecting to Polkadot</p>
+        <p class="text-sm text-gray-800">Connecting to Westend...</p>
       </div>
     {:else}
       <Tabs {items} />
