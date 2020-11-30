@@ -13,7 +13,7 @@
       <li
         class="text-sm text-gray-700 rounded shadow p-4 mb-4 bg-white truncate
           cursor-pointer"
-        on:click={() => {
+        on:click={async () => {
           context.selectedAccount.set(account);
           context.multistep.nextStep();
         }}>

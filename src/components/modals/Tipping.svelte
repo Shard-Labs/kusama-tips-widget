@@ -45,7 +45,7 @@
         class="flex flex-col justify-center items-center box-border"
         style="height: 273px">
         <Loader />
-        <p class="text-sm text-gray-800">Connecting to Westend...</p>
+        <p class="text-sm text-gray-800">Connecting to Kusama...</p>
       </div>
     {:else}
       <Tabs {items} />
