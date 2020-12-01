@@ -8,7 +8,7 @@ const mode = process.env.NODE_ENV || "development";
 const production = mode === "production";
 
 module.exports = {
-  entry: "./src/main.ts",
+  entry: "./src/main.js",
   resolve: {
     alias: {
       svelte: path.resolve("node_modules", "svelte"),

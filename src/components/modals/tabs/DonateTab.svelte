@@ -1,9 +1,11 @@
 <script>
   import BN from "bn.js";
   import { getContext, onMount } from "svelte";
+  import { transactionHandler } from "../../../utils/index.js";
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
+  let multistep = context.multistep;
   let provider = context.provider;
   let balance;
   let amount;
@@ -23,7 +25,7 @@
       amount = value;
       extrinsic = $provider.tx.balances.transfer(
         context.beneficiary,
-        new BN(1e12, 10).muln(parseFloat(value))
+        new BN(1e12, 10).muln(parseFloat(value || 0))
       );
       let queryInfo = await $provider.rpc.payment.queryInfo(extrinsic.toHex());
       estimatedFee = queryInfo.partialFee.toHuman();
@@ -45,45 +47,16 @@
 
   const onSubmit = async (e) => {
     submitting = true;
-    extrinsic.signAndSend($selectedAccount.address, (response) => {
-      console.log(response);
-      if (!response.isFinalized) {
-        return;
+    extrinsic.signAndSend($selectedAccount.address, async (response) => {
+      if (!response.isFinalized) return;
+      try {
+        await transactionHandler(response);
+        multistep.nextStep(`Successfully donated ${amount} ${tokenSymbol}`);
+      } catch (err) {
+        message = err.message;
       }
-
       submitting = false;
       updateBalance();
-
-      (response.events || [])
-        .filter((record) => !!record.event)
-        .map(({ event: { data, method, section } }) => {
-          if (section === "system" && method === "ExtrinsicFailed") {
-            const [dispatchError] = data;
-            if (dispatchError.isModule) {
-              try {
-                const mod = dispatchError.asModule;
-                const error = mod.registry.findMetaError(mod);
-
-                message = {
-                  type: "error",
-                  data: `${error.section}.${error.name}: ${error.documentation}`,
-                };
-                return;
-              } catch (error) {
-                // swallow
-              }
-            }
-            message = {
-              type: "error",
-              data: `${section}.${method}`,
-            };
-          } else if (section === "system" && method === "ExtrinsicSuccess") {
-            message = {
-              type: "success",
-              data: `Successfully donated ${amount} ${tokenSymbol}`,
-            };
-          }
-        });
     });
   };
 </script>
@@ -132,10 +105,9 @@
   </button>
   <div
     class="block mt-4 px-4 py-2 rounded text-white text-sm"
-    class:bg-accent={message && message.type == 'success'}
-    class:bg-red-500={message && message.type == 'error'}
+    class:bg-red-500={message}
     class:hidden={!message}
     on:click={() => (message = null)}>
-    {message && message.data}
+    {message}
   </div>
 </form>

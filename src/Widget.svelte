@@ -1,11 +1,12 @@
 <script>
   import "./main.css";
-  import { createApiProvider, createMultistep } from "./components/stores";
+  import { createApiProvider, createMultistep } from "./components/store";
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
   import Connect from "./components/modals/Connect.svelte";
   import SelectAccount from "./components/modals/SelectAccount.svelte";
   import Tipping from "./components/modals/Tipping.svelte";
+  import Confirmation from "./components/modals/Confirmation.svelte";
 
   export let beneficiary;
 
@@ -29,10 +30,11 @@
     { component: Connect },
     { component: SelectAccount },
     { component: Tipping },
+    { component: Confirmation },
   ];
 
-  let selected = modals[0];
-  multistep.subscribe((index) => (selected = modals[index]));
+  let selected;
+  multistep.subscribe(({ index }) => (selected = modals[3]));
 </script>
 
 <div id="wrapper">

@@ -2,13 +2,14 @@ import { writable } from "svelte/store";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 
 export function createMultistep() {
-  const { subscribe, set, update } = writable(0);
+  const initialState = { index: 0, data: null };
+  const { subscribe, set, update } = writable(initialState);
 
   return {
     subscribe,
-    nextStep: () => update((n) => n + 1),
-    previousStep: () => update((n) => n - 1),
-    reset: () => set(0),
+    nextStep: (data) => update((s) => ({ index: s.index + 1, data })),
+    previousStep: (data) => update((s) => ({ index: s.index - 1, data })),
+    reset: () => set(initialState),
   };
 }
 
