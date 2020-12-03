@@ -34,7 +34,7 @@
   ];
 
   let selected;
-  multistep.subscribe(({ index }) => (selected = modals[3]));
+  multistep.subscribe(({ index }) => (selected = modals[index]));
 </script>
 
 <div id="wrapper">
