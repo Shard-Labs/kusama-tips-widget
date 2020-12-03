@@ -9,6 +9,7 @@
   import Confirmation from "./components/modals/Confirmation.svelte";
 
   export let beneficiary;
+  export let element;
 
   let showModal = false;
   let multistep = createMultistep();
@@ -35,16 +36,22 @@
 
   let selected;
   multistep.subscribe(({ index }) => (selected = modals[index]));
+
+  if (element) {
+    element.onclick = function () {
+      showModal = true;
+    };
+  }
 </script>
 
-<div id="wrapper">
-  <button
-    on:click={() => (showModal = true)}
-    id="btnOverlay"
-    class="inline-block bg-accent py-2 px-6 m-auto text-gray-100 text-lg rounded">
-    Tip me
-  </button>
-
+<div id="kusama-tips-wrapper">
+  {#if !element}
+    <button
+      on:click={() => (showModal = true)}
+      class="inline-block bg-accent py-2 px-6 m-auto text-gray-100 rounded">
+      Kusama Tips
+    </button>
+  {/if}
   {#if showModal}
     <svelte:component this={selected.component} on:close={handleClose} />
     <div

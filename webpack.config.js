@@ -24,7 +24,7 @@ module.exports = {
   output: {
     library: "kusamaTipsWidget",
     libraryTarget: "umd",
-    filename: "bundle.js",
+    filename: "bundle.min.js",
     globalObject: "this",
   },
   devServer: {
@@ -63,7 +63,11 @@ module.exports = {
   devtool: production ? false : "source-map",
   optimization: {
     minimize: production,
-    minimizer: [new TerserPlugin({ parallel: true })],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({

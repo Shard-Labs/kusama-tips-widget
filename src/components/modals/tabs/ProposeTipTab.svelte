@@ -1,5 +1,6 @@
 <script>
   import BN from "bn.js";
+  import { formatBalance } from "@polkadot/util";
   import { getContext, onMount } from "svelte";
 
   let context = getContext("global");
@@ -35,7 +36,14 @@
 
       extrinsic = $provider.tx.treasury[method](...params);
       let queryInfo = await $provider.rpc.payment.queryInfo(extrinsic.toHex());
-      estimatedFee = queryInfo.partialFee.toHuman();
+      let existentialDeposit = $provider.consts.balances.existentialDeposit;
+      let fee = queryInfo.partialFee.add(existentialDeposit);
+
+      estimatedFee = formatBalance(fee, {
+        withSi: true,
+        decimals: existentialDeposit.registry.chainDecimals,
+        withUnit: existentialDeposit.registry.chainToken,
+      });
     }, 300);
   };
 

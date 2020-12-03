@@ -1,12 +1,14 @@
 {
-  "name": "kusuma-tips-widget",
+  "name": "kusama-tips-widget",
   "version": "1.0.0",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "cross-env NODE_ENV=development webpack serve",
     "validate": "svelte-check"
   },
+  "main": "dist/bundle.min.js",
   "devDependencies": {
+    "@polkadot/util": "^4.2.1",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-inject": "^4.0.2",
     "@rollup/plugin-node-resolve": "^8.0.0",
