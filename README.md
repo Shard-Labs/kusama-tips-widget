@@ -1,26 +1,32 @@
-Kusama Tips Widget
+# Kusama Tips Widget
+
+## Install
+
+Using CDN: Add the following script to the end of your `<head>` section.
 
 ```html
 <script src="https://unpkg.com/kusama-tips-widget/dist/bundle.min.js"></script>
 ```
 
+## Usage
+
 Binding the widget
 
-```js
+```html
 <script>
-kusamaTipsWidget.bind(document.body, {
+  kusamaTipsWidget.bind(document.body, {
     beneficiary: "5EhR5PRsX...",
-})
+  });
 </script>
 ```
 
 Use custom button element
 
-```js
+```html
 <script>
-kusamaTipsWidget.bind(document.body, {
+  kusamaTipsWidget.bind(document.body, {
     beneficiary: "5EhR5PRsX...",
-    element: document.getElementById("my-button")
-})
+    element: document.getElementById("my-button"),
+  });
 </script>
 ```
