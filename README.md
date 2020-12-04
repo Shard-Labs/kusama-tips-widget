@@ -5,7 +5,7 @@
 Using CDN: Add the following script to the end of your `<head>` section.
 
 ```html
-<script src="https://unpkg.com/kusama-tips-widget/dist/bundle.min.js"></script>
+<script src="https://unpkg.com/@shardlabs/kusama-tips-widget@latest/dist/bundle.min.js"></script>
 ```
 
 ## Usage
