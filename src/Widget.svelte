@@ -54,9 +54,5 @@
   {/if}
   {#if showModal}
     <svelte:component this={selected.component} on:close={handleClose} />
-    <div
-      id="widget"
-      class="fixed inset-0 flex overflow-hidden w-screen h-screen z-10 bg-black
-        bg-opacity-50 transition-opacity duration-200" />
   {/if}
 </div>
