@@ -1,6 +1,9 @@
 {
   "name": "@shardlabs/kusama-tips-widget",
-  "version": "1.0.1",
+  "version": "1.0.3",
+  "repository": "https://github.com/Shard-Labs/kusama-tips-widget",
+  "author": "Darko Macesic <darko@shardlabs.io>, Ana Milic Strkalj <ana@shardlabs.io>",
+  "license": "Apache-2.0",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "cross-env NODE_ENV=development webpack serve",
@@ -10,7 +13,8 @@
   "files": [
     "dist/bundle.min.js",
     "package.json",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "devDependencies": {
     "@polkadot/util": "^4.2.1",
