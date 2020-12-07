@@ -16,6 +16,12 @@
     "README.md",
     "LICENSE"
   ],
+  "keywords": [
+    "kusama",
+    "tips",
+    "treasury",
+    "widget"
+  ],
   "devDependencies": {
     "@polkadot/util": "^4.2.1",
     "@tsconfig/svelte": "^1.0.0",
