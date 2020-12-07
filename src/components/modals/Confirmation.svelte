@@ -23,10 +23,15 @@
             d="M14.7 8.39l-3.78 5-1.63-2.11a1 1 0 00-1.58 1.23l2.43 3.11a1 1 0 00.79.38 1 1 0 00.79-.39l4.57-6a1 1 0 10-1.6-1.22z" />
         </g>
       </g></svg>
-    <p class="text-lg font-semibold text-gray-700">{$multistep.data}</p>
+    <p class="text-lg font-semibold text-gray-700 mb-2">{$multistep.data}</p>
+    <a
+      class="text-sm text-gray-700 underline"
+      target="_blank"
+      href="https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fkusama-rpc.polkadot.io#/treasury/tips">View
+      treasury</a>
     <button
       on:click={() => multistep.previousStep()}
-      class="block text-gray-500 my-4 text-sm">
+      class="block text-gray-500 my-6 text-sm">
       Go back
     </button>
   </div>
