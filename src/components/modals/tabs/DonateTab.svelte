@@ -71,22 +71,22 @@
 
 <form on:submit|preventDefault={onSubmit}>
   <div class="flex justify between mt-2 leading-loose">
-    <span class="text-xs text-gray-500">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
+    <span class="text-xs text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
     <span
-      class="text-xs text-gray-500 ml-auto"
+      class="text-xs text-paragraph ml-auto"
       class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
   </div>
   <input
     type="text"
-    class="bg-white focus:bg-gray-100 border border-solid border-gray-400
+    class="bg-white focus:bg-background border border-solid border-light
       rounded block w-full p-2"
     on:keyup={({ target: { value } }) => debounce(value)}
     required />
-  <div class="text-xs text-gray-500 leading-loose" class:hidden={!estimatedFee}>
+  <div class="text-xs text-paragraph leading-loose" class:hidden={!estimatedFee}>
     Estimated fee: {estimatedFee}
   </div>
   <button
-    class="flex py-2 px-6 mx-auto mt-4 text-gray-100 rounded text-sm"
+    class="flex py-2 px-6 mx-auto mt-4 text-white rounded text-sm"
     class:bg-gray-500={!extrinsic || submitting}
     class:bg-accent={extrinsic}
     disabled={!extrinsic || submitting}>

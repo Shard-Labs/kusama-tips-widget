@@ -8,7 +8,7 @@
 <ul class="flex mb-4">
   {#each items as item, i}
     <li
-      class="bg-white flex-1 text-gray-800 border-b-2"
+      class="bg-white flex-1 text-dark border-b-2"
       class:border-accent={i == selectedIndex}>
       <span
         class="text-center block px-4 py-2 cursor-pointer"

@@ -19,15 +19,15 @@
 </script>
 
 <Modal on:close>
-  <h2 slot="header" class="text-lg text-gray-900">Connect to Polkadot</h2>
+  <h2 slot="header" class="text-lg text-dark">Connect to Polkadot</h2>
 
   <div slot="content">
     <div class="bg-white rounded shadow p-8 mb-8">
-      <p class="text-sm text-gray-500 mb-4">
+      <p class="text-sm text-light mb-4">
         In order to use a Tip or Donate button you must have Polkadot Wallet
         installed and funded with tokens.
       </p>
-      <div class="text-base text-gray-700">
+      <div class="text-base text-paragraph">
         <div class="py-2 font-semibold">Extensions:</div>
         <ul>
           <li class="text-sm">
@@ -43,7 +43,7 @@
     </div>
     <button
       on:click={connect}
-      class="block bg-accent py-2 px-6 text-white font-semibold rounded mx-auto">
+      class="block bg-accent py-2 px-6 text-white font-semibold rounded mx-auto hover:bg-dark">
       Connect
     </button>
   </div>
