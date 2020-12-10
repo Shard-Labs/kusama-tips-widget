@@ -1,8 +1,8 @@
 <script>
   import { createEventDispatcher } from "svelte";
 
-  const dispatch = createEventDispatcher();
-  const close = () => dispatch("close");
+  const dispatch = createEventDispatcher()
+  const close = () => dispatch('close')
 
   const handleKeydown = (e) => {
     if (e.key === "Escape") {
