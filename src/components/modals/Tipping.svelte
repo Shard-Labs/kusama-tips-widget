@@ -29,15 +29,20 @@
 
 <Modal on:close>
   <div slot="header" class="flex flex-col">
-    <div class="text-xs text-gray-800 truncate">{$selectedAccount.address}</div>
-    <span
-      class="text-xs text-gray-600 cursor-pointer"
+    <div class="flex justify-between">
+      <div class="font-semibold">{$selectedAccount.meta.name}</div>
+      <span
+      class="text-xs text-accent cursor-pointer self-end"
       on:click={() => {
         context.selectedAccount.set(null);
         context.multistep.previousStep();
       }}>
       Change account
     </span>
+    </div>
+    
+    <div class="text-xs text-paragraph truncate">{$selectedAccount.address}</div>
+    
   </div>
   <div slot="content" class="p-8 bg-white shadow rounded">
     {#if loading}
@@ -45,7 +50,7 @@
         class="flex flex-col justify-center items-center box-border"
         style="height: 273px">
         <Loader />
-        <p class="text-sm text-gray-800">Connecting to Kusama...</p>
+        <p class="text-sm text-paragraph">Connecting to Kusama...</p>
       </div>
     {:else}
       <Tabs {items} />

@@ -11,17 +11,17 @@
   <ul
     slot="content"
     class="-m-2 p-2 overflow-y-scroll"
-    style="max-height: 400px">
+    style="max-height: 360px">
     {#each $accounts as account}
       <li
-        class="text-sm text-gray-700 rounded shadow p-4 mb-4 bg-white truncate
-          cursor-pointer"
+        class="text-sm text-medium rounded shadow p-4 mb-4 bg-white truncate
+          cursor-pointer hover:bg-gray-100"
         on:click={async () => {
           context.selectedAccount.set(account);
           context.multistep.nextStep();
         }}>
         <div class="font-semibold">{account.meta.name}</div>
-        <div class="text-gray-500 truncate">{account.address}</div>
+        <div class="text-medium truncate">{account.address}</div>
       </li>
     {/each}
   </ul>

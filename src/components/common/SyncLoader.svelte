@@ -9,7 +9,7 @@
   .dot {
     height: 12px;
     width: 12px;
-    background-color: #ff8c00;
+    background-color: #E6007A;
     margin: 2px;
     display: inline-block;
     border-radius: 100%;

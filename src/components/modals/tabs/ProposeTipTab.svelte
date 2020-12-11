@@ -83,37 +83,37 @@
 
 <form on:submit|preventDefault={onSubmit}>
   <div class="flex justify-between mt-2 leading-loose">
-    <span class="text-xs text-gray-500">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
-    <span class="text-xs text-gray-500" class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
+    <span class="text-xs text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
+    <span class="text-xs text-paragraph" class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
   </div>
   <input
     type="text"
-    class="bg-white focus:bg-gray-100 border border-solid border-gray-400
-      focus:border-blue-500 rounded w-full p-2 mb-2"
+    class="bg-white focus:bg-background border border-solid border-light
+      focus:border-cyan rounded w-full p-2 mb-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (amount = value))}
     class:bg-gray-200={!isCouncilMember}
     disabled={!isCouncilMember}
     required={isCouncilMember} />
   {#if !isCouncilMember}
-    <div class="text-xs text-gray-500 leading-loose -mt-2 mb-2">
+    <div class="text-xs text-paragraph leading-loose -mt-2 mb-2">
       Only council members are allowed to specify the amount
     </div>
   {:else}
     <div
-      class="text-xs text-gray-500 leading-loose -mt-2 mb-2"
+      class="text-xs text-paragraph leading-loose -mt-2 mb-2"
       class:hidden={!estimatedFee}>
       Estimated fee: {estimatedFee}
     </div>
   {/if}
-  <div class="text-xs text-gray-500 leading-loose">Reason:</div>
+  <div class="text-xs text-paragraph leading-loose">Reason:</div>
   <input
-    type="text"
-    class="bg-white focus:bg-gray-100 border border-solid border-gray-400
+    type="text" 
+    class="bg-white focus:bg-background border border-solid border-light
       rounded block w-full p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (reason = value))}
     required />
   <button
-    class="flex py-2 px-6 mx-auto mt-4 text-gray-100 rounded text-sm"
+    class="flex py-2 px-6 mx-auto mt-4 text-white rounded text-sm"
     class:bg-gray-500={!extrinsic || submitting}
     class:bg-accent={extrinsic}
     disabled={!extrinsic || submitting}>
