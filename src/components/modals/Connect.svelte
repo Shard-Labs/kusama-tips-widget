@@ -43,7 +43,8 @@
     </div>
     <button
       on:click={connect}
-      class="block bg-accent py-2 px-6 text-white font-semibold rounded mx-auto hover:bg-dark">
+      class="block bg-accent py-2 px-6 text-white font-semibold rounded mx-auto
+        hover:bg-dark">
       Connect
     </button>
   </div>

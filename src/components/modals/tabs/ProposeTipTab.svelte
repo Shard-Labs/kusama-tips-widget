@@ -107,9 +107,9 @@
   {/if}
   <div class="text-xs text-paragraph leading-loose">Reason:</div>
   <input
-    type="text" 
-    class="bg-white focus:bg-background border border-solid border-light
-      rounded block w-full p-2"
+    type="text"
+    class="bg-white focus:bg-background border border-solid border-light rounded
+      block w-full p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (reason = value))}
     required />
   <button
