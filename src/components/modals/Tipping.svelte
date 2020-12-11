@@ -29,16 +29,20 @@
 
 <Modal on:close>
   <div slot="header" class="flex flex-col">
-    <div class="font-semibold">{$selectedAccount.meta.name}</div>
-    <div class="text-xs text-paragraph truncate">{$selectedAccount.address}</div>
-    <span
-      class="text-xs text-dark cursor-pointer self-end"
+    <div class="flex justify-between">
+      <div class="font-semibold">{$selectedAccount.meta.name}</div>
+      <span
+      class="text-xs text-accent cursor-pointer self-end"
       on:click={() => {
         context.selectedAccount.set(null);
         context.multistep.previousStep();
       }}>
       Change account
     </span>
+    </div>
+    
+    <div class="text-xs text-paragraph truncate">{$selectedAccount.address}</div>
+    
   </div>
   <div slot="content" class="p-8 bg-white shadow rounded">
     {#if loading}
