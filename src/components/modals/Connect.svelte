@@ -23,7 +23,7 @@
 
   <div slot="content">
     <div class="bg-white rounded shadow p-8 mb-8">
-      <p class="text-sm text-light mb-4">
+      <p class="text-sm text-dark mb-4">
         In order to use a Tip or Donate button you must have Polkadot Wallet
         installed and funded with tokens.
       </p>

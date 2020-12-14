@@ -88,7 +88,7 @@
   </div>
   <input
     type="text"
-    class="bg-white focus:bg-background border border-solid border-light
+    class="bg-white focus:bg-background border border-solid border-opacity-50	 border-light
       focus:border-cyan rounded w-full p-2 mb-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (amount = value))}
     class:bg-gray-200={!isCouncilMember}
@@ -108,7 +108,7 @@
   <div class="text-xs text-paragraph leading-loose">Reason:</div>
   <input
     type="text" 
-    class="bg-white focus:bg-background border border-solid border-light
+    class="bg-white focus:bg-background border border-solid border-opacity-50	border-light
       rounded block w-full p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (reason = value))}
     required />
