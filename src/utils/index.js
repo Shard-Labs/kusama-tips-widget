@@ -1,3 +1,21 @@
+import BN from "bn.js";
+
+const BN_TEN = new BN(10);
+
+export const parseInput = (value, decimals) => {
+  const decimal = value.trim().match(/^(\d+)\.(\d+)$/);
+  if (decimal) {
+    const div = new BN(decimal[1]);
+    const modString = decimal[2].substr(0, decimals);
+    const mod = new BN(modString);
+
+    return div
+      .mul(BN_TEN.pow(new BN(decimals)))
+      .add(mod.mul(BN_TEN.pow(new BN(decimals - modString.length))));
+  }
+  return new BN(value.trim()).mul(BN_TEN.pow(new BN(decimals)));
+};
+
 export const transactionHandler = (response) => {
   return new Promise((resolve, reject) => {
     response.events

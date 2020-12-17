@@ -1,7 +1,7 @@
 <script>
-  import BN from "bn.js";
   import { formatBalance } from "@polkadot/util";
   import { getContext, onMount } from "svelte";
+  import { parseInput, transactionHandler } from "../../../utils/index.js";
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
@@ -30,7 +30,7 @@
         ? [
             reason,
             context.beneficiary,
-            new BN(1e12, 10).muln(parseFloat(amount || 0)),
+            parseInput(amount, $provider.registry.chainDecimals),
           ]
         : [reason, context.beneficiary];
 
@@ -41,8 +41,8 @@
 
       estimatedFee = formatBalance(fee, {
         withSi: true,
-        decimals: existentialDeposit.registry.chainDecimals,
-        withUnit: existentialDeposit.registry.chainToken,
+        decimals: $provider.registry.chainDecimals,
+        withUnit: $provider.registry.chainToken,
       });
     }, 300);
   };
@@ -65,13 +65,16 @@
     updateBalance();
   });
 
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     submitting = true;
     extrinsic.signAndSend($selectedAccount.address, async (response) => {
       if (!response.isFinalized) return;
       try {
         await transactionHandler(response);
-        multistep.nextStep(`You successfully proposed a tip!`);
+        multistep.nextStep({
+          type: "proposal",
+          message: `You successfully proposed a tip!`,
+        });
       } catch (err) {
         message = err.message;
       }

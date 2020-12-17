@@ -1,8 +1,7 @@
 <script>
-  import BN from "bn.js";
   import { formatBalance } from "@polkadot/util";
   import { getContext, onMount } from "svelte";
-  import { transactionHandler } from "../../../utils/index.js";
+  import { parseInput, transactionHandler } from "../../../utils/index.js";
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
@@ -26,7 +25,7 @@
       amount = value;
       extrinsic = $provider.tx.balances.transfer(
         context.beneficiary,
-        new BN(1e12, 10).muln(parseFloat(value || 0))
+        parseInput(value, $provider.registry.chainDecimals)
       );
       let queryInfo = await $provider.rpc.payment.queryInfo(extrinsic.toHex());
       let existentialDeposit = $provider.consts.balances.existentialDeposit;
@@ -34,8 +33,8 @@
 
       estimatedFee = formatBalance(fee, {
         withSi: true,
-        decimals: existentialDeposit.registry.chainDecimals,
-        withUnit: existentialDeposit.registry.chainToken,
+        decimals: $provider.registry.chainDecimals,
+        withUnit: $provider.registry.chainToken,
       });
     }, 300);
   };
@@ -53,13 +52,17 @@
     tokenSymbol = properties.tokenSymbol;
   });
 
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     submitting = true;
     extrinsic.signAndSend($selectedAccount.address, async (response) => {
       if (!response.isFinalized) return;
       try {
         await transactionHandler(response);
-        multistep.nextStep(`Successfully donated ${amount} ${tokenSymbol}`);
+        multistep.nextStep({
+          type: "donate",
+          message: `Successfully donated ${amount} ${tokenSymbol}`,
+          account: $selectedAccount.address,
+        });
       } catch (err) {
         message = err.message;
       }
