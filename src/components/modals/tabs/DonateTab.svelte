@@ -114,8 +114,7 @@
     <span class="inline-block"> {submitting ? 'Processing...' : 'Donate'}</span>
   </button>
   <div
-    class="block mt-4 px-4 py-2 rounded text-white text-sm"
-    class:bg-red-500={message}
+    class="block mt-4 px-4 py-2 rounded text-white text-sm bg-red-500"
     class:hidden={!message}
     on:click={() => (message = null)}>
     {message}

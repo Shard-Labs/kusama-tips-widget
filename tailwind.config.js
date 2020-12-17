@@ -6,6 +6,10 @@ module.exports = {
   purge: {
     enabled: process.env.NODE_ENV === "production",
     content: ["./src/**/*.svelte"],
+    options: {
+      whitelist: ["hidden", "invisible", "border-accent"],
+      whitelistPatterns: [/^bg-gray-\d+$/],
+    },
   },
   theme: {
     extend: {
@@ -15,7 +19,7 @@ module.exports = {
         light: "#717171",
         cyan: "#00ffe1",
         background: "#f6f6f6",
-        dark: "#000"
+        dark: "#000",
       },
     },
   },
