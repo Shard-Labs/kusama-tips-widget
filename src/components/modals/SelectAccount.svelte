@@ -2,7 +2,6 @@
   import { getContext } from "svelte";
   import Modal from "../Modal.svelte";
   import { encodeAddress } from "@polkadot/util-crypto";
-  import { WsProvider } from "@polkadot/api";
 
   let context = getContext("global");
   let accounts = context.accounts;
