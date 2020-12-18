@@ -45,11 +45,12 @@
       {$selectedAccount.address}
     </div>
   </div>
-  <div slot="content" class="ksm-p-8 ksm-bg-white ksm-shadow rounded">
+  <div slot="content" class="ksm-p-8 ksm-bg-white ksm-shadow ksm-rounded">
     {#if loading}
       <div
-        class="ksm-flex ksm-flex-col ksm-justify-center ksm-items-center ksm-box-border"
-        style="ksm-height: 273px">
+        class="ksm-flex ksm-flex-col ksm-justify-center ksm-items-center
+          ksm-box-border"
+        style="height: 273px">
         <Loader />
         <p class="ksm-text-sm ksm-text-paragraph">Connecting to Kusama...</p>
       </div>

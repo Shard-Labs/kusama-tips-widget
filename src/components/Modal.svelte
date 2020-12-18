@@ -15,14 +15,18 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div
-  class="ksm-fixed ksm-w-screen ksm-h-screen ksm-inset-0 ksm-flex ksm-items-center ksm-justify-center
-    ksm-bg-black ksm-bg-opacity-50"
+  class="ksm-fixed ksm-w-screen ksm-h-screen ksm-inset-0 ksm-flex
+    ksm-items-center ksm-justify-center ksm-bg-black ksm-bg-opacity-50 ksm-p-0
+    ksm-m-0"
   style="z-index: 999">
   <div
     role="dialog"
     aria-modal="true"
-    class="ksm-h-full ksm-w-full ksm-md:h-auto ksm-md:max-w-xl ksm-rounded ksm-shadow-md ksm-bg-background">
-    <div class="ksm-px-8 ksm-py-6 ksm-flex ksm-justify-between ksm-items-center ksm-bg-white">
+    class="ksm-h-full ksm-w-full md:ksm-h-auto md:ksm-max-w-xl ksm-rounded
+      ksm-shadow-md ksm-bg-background">
+    <div
+      class="ksm-px-8 ksm-py-6 ksm-flex ksm-justify-between ksm-items-center
+        ksm-bg-white">
       <div class="ksm-flex ksm-items-center">
         <img
           class="ksm-w-6 ksm-h-6 ksm-mr-2 ksm-rounded-full"

@@ -20,7 +20,6 @@
 
 <Modal on:close>
   <h2 slot="header" class="ksm-text-lg ksm-text-dark">Connect to Polkadot</h2>
-
   <div slot="content">
     <div class="ksm-bg-white ksm-rounded ksm-shadow ksm-p-8 ksm-mb-8">
       <p class="ksm-text-sm ksm-text-dark ksm-mb-4">
@@ -43,8 +42,8 @@
     </div>
     <button
       on:click={connect}
-      class="ksm-block ksm-bg-accent ksm-py-2 ksm-px-6 ksm-text-white ksm-font-semibold ksm-rounded ksm-mx-auto
-        hover:ksm-bg-dark">
+      class="ksm-block ksm-bg-accent ksm-py-2 ksm-px-6 ksm-text-white
+        ksm-font-semibold ksm-rounded ksm-mx-auto hover:ksm-bg-dark">
       Connect
     </button>
   </div>

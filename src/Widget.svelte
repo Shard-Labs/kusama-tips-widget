@@ -48,7 +48,8 @@
   {#if !element}
     <button
       on:click={() => (showModal = true)}
-      class="inline-block bg-accent py-2 px-6 m-auto text-gray-100 rounded">
+      class="ksm-inline-block ksm-bg-accent ksm-py-2 ksm-px-6 ksm-m-auto
+        ksm-text-white ksm-rounded">
       Kusama Tips
     </button>
   {/if}

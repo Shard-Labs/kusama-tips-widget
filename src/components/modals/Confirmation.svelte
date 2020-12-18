@@ -11,7 +11,7 @@
   <div
     slot="content"
     class="ksm-flex ksm-flex-col ksm-items-center ksm-justify-center"
-    style="ksm-max-height: 400px">
+    style="max-height: 400px">
     <svg
       class="ksm-w-32 ksm-h-32 ksm-fill-current ksm-text-green-500 ksm-p-2"
       xmlns="http://www.w3.org/2000/svg"

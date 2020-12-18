@@ -1,5 +1,5 @@
 module.exports = {
-  prefix: 'ksm-',
+  prefix: "ksm-",
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
@@ -8,7 +8,7 @@ module.exports = {
     enabled: process.env.NODE_ENV === "production",
     content: ["./src/**/*.svelte"],
     options: {
-      whitelist: ["hidden", "invisible", "border-accent"],
+      whitelist: ["ksm-hidden", "ksm-invisible", "ksm-border-accent"],
       whitelistPatterns: [/^ksm-bg-gray-\d+$/],
     },
   },
