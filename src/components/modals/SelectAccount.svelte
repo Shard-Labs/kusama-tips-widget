@@ -1,6 +1,8 @@
 <script>
   import { getContext } from "svelte";
   import Modal from "../Modal.svelte";
+  import { encodeAddress } from "@polkadot/util-crypto";
+  import { WsProvider } from "@polkadot/api";
 
   let context = getContext("global");
   let accounts = context.accounts;
@@ -21,7 +23,9 @@
           context.multistep.nextStep();
         }}>
         <div class="font-semibold">{account.meta.name}</div>
-        <div class="text-medium truncate">{account.address}</div>
+        <div class="text-medium truncate">
+          {encodeAddress(account.address, 2)}
+        </div>
       </li>
     {/each}
   </ul>

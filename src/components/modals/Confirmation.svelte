@@ -30,7 +30,7 @@
       <a
         class="text-sm text-paragraph underline"
         target="_blank"
-        href="https://kusama.subscan.io/account/{$multistep.data.account}">View
+        href="https://kusama.subscan.io/account/{$multistep.data.address}">View
         on subscan.io</a>
     {:else if $multistep.data.type === 'proposal'}
       <a

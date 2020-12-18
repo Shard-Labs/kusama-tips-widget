@@ -2,6 +2,7 @@
   import { formatBalance } from "@polkadot/util";
   import { getContext, onMount } from "svelte";
   import { parseInput, transactionHandler } from "../../../utils/index.js";
+  import { encodeAddress } from "@polkadot/util-crypto";
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
@@ -61,7 +62,7 @@
         multistep.nextStep({
           type: "donate",
           message: `Successfully donated ${amount} ${tokenSymbol}`,
-          account: $selectedAccount.address,
+          address: encodeAddress($selectedAccount.address, 2),
         });
       } catch (err) {
         message = err.message;
