@@ -5,13 +5,13 @@
   const handleClick = (index) => () => (selectedIndex = index);
 </script>
 
-<ul class="flex mb-4">
+<ul class="ksm-flex ksm-mb-4">
   {#each items as item, i}
     <li
-      class="bg-white flex-1 text-dark border-b-2"
-      class:border-accent={i == selectedIndex}>
+      class="ksm-bg-white ksm-flex-1 ksm-text-dark ksm-border-b-2"
+      class:ksm-border-accent={i == selectedIndex}>
       <span
-        class="text-center block px-4 py-2 cursor-pointer"
+        class="ksm-text-center ksm-block ksm-px-4 ksm-py-2 ksm-cursor-pointer"
         on:click={handleClick(i)}>
         {item.label}
       </span>

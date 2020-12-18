@@ -19,23 +19,23 @@
 </script>
 
 <Modal on:close>
-  <h2 slot="header" class="text-lg text-dark">Connect to Polkadot</h2>
+  <h2 slot="header" class="ksm-text-lg ksm-text-dark">Connect to Polkadot</h2>
 
   <div slot="content">
-    <div class="bg-white rounded shadow p-8 mb-8">
-      <p class="text-sm text-dark mb-4">
+    <div class="ksm-bg-white ksm-rounded ksm-shadow ksm-p-8 ksm-mb-8">
+      <p class="ksm-text-sm ksm-text-dark ksm-mb-4">
         In order to use a Tip or Donate button you must have Polkadot Wallet
         installed and funded with tokens.
       </p>
-      <div class="text-base text-paragraph">
-        <div class="py-2 font-semibold">Extensions:</div>
+      <div class="ksm-text-base ksm-text-paragraph">
+        <div class="ksm-py-2 ksm-font-semibold">Extensions:</div>
         <ul>
-          <li class="text-sm">
-            On Google Chrome, install via <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" target=" _blank" rel="noopener noreferrer" class="underline"> Chrome
+          <li class="ksm-text-sm">
+            On Google Chrome, install via <a href="https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd" target=" _blank" rel="noopener noreferrer" class="ksm-underline"> Chrome
               web store </a>
           </li>
-          <li class="text-sm">
-            On Firefox, install via <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" target=" _blank" rel="noopener noreferrer" class="underline"> Firefox
+          <li class="ksm-text-sm">
+            On Firefox, install via <a href="https://addons.mozilla.org/en-US/firefox/addon/polkadot-js-extension/" target=" _blank" rel="noopener noreferrer" class="ksm-underline"> Firefox
               add-ons </a>
           </li>
         </ul>
@@ -43,8 +43,8 @@
     </div>
     <button
       on:click={connect}
-      class="block bg-accent py-2 px-6 text-white font-semibold rounded mx-auto
-        hover:bg-dark">
+      class="ksm-block ksm-bg-accent ksm-py-2 ksm-px-6 ksm-text-white ksm-font-semibold ksm-rounded ksm-mx-auto
+        hover:ksm-bg-dark">
       Connect
     </button>
   </div>

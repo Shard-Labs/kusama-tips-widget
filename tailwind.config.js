@@ -1,4 +1,5 @@
 module.exports = {
+  prefix: 'ksm-',
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
@@ -8,7 +9,7 @@ module.exports = {
     content: ["./src/**/*.svelte"],
     options: {
       whitelist: ["hidden", "invisible", "border-accent"],
-      whitelistPatterns: [/^bg-gray-\d+$/],
+      whitelistPatterns: [/^ksm-bg-gray-\d+$/],
     },
   },
   theme: {

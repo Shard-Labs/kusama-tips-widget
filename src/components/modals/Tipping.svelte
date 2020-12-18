@@ -28,11 +28,11 @@
 </script>
 
 <Modal on:close>
-  <div slot="header" class="flex flex-col">
-    <div class="flex justify-between">
-      <div class="font-semibold">{$selectedAccount.meta.name}</div>
+  <div slot="header" class="ksm-flex ksm-flex-col">
+    <div class="ksm-flex ksm-justify-between">
+      <div class="ksm-font-semibold">{$selectedAccount.meta.name}</div>
       <span
-        class="text-xs text-accent cursor-pointer self-end"
+        class="ksm-text-xs ksm-text-accent ksm-cursor-pointer ksm-self-end"
         on:click={() => {
           context.selectedAccount.set(null);
           context.multistep.previousStep();
@@ -41,17 +41,17 @@
       </span>
     </div>
 
-    <div class="text-xs text-paragraph truncate">
+    <div class="ksm-text-xs ksm-text-paragraph ksm-truncate">
       {$selectedAccount.address}
     </div>
   </div>
-  <div slot="content" class="p-8 bg-white shadow rounded">
+  <div slot="content" class="ksm-p-8 ksm-bg-white ksm-shadow rounded">
     {#if loading}
       <div
-        class="flex flex-col justify-center items-center box-border"
-        style="height: 273px">
+        class="ksm-flex ksm-flex-col ksm-justify-center ksm-items-center ksm-box-border"
+        style="ksm-height: 273px">
         <Loader />
-        <p class="text-sm text-paragraph">Connecting to Kusama...</p>
+        <p class="ksm-text-sm ksm-text-paragraph">Connecting to Kusama...</p>
       </div>
     {:else}
       <Tabs {items} />
