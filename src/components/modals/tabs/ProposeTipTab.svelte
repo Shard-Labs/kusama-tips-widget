@@ -5,6 +5,7 @@
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
+  let multistep = context.multistep;
   let provider = context.provider;
   let isCouncilMember;
   let submitting = false;
