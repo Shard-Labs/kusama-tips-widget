@@ -5,6 +5,7 @@
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
+  let multistep = context.multistep;
   let provider = context.provider;
   let isCouncilMember;
   let submitting = false;
@@ -28,7 +29,7 @@
       const method = isCouncilMember ? "tipNew" : "reportAwesome";
       const params = isCouncilMember
         ? [
-            reason,
+            `${window.location.origin} - ${reason}`,
             context.beneficiary,
             parseInput(amount, $provider.registry.chainDecimals),
           ]
@@ -60,7 +61,7 @@
 
     if ($provider.query.council) {
       const members = await $provider.query.council.members();
-      isCouncilMember = !(members || []).includes($selectedAccount.address);
+      isCouncilMember = (members || []).includes($selectedAccount.address);
     }
     updateBalance();
   });
@@ -87,18 +88,22 @@
 <form on:submit|preventDefault={onSubmit}>
   <div class="ksm-flex ksm-justify-between ksm-mt-2 ksm-leading-loose">
     <span class="ksm-text-xs ksm-text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
-    <span class="ksm-text-xs ksm-text-paragraph" class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
+    <span
+      class="ksm-text-xs ksm-text-paragraph"
+      class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
   </div>
   <input
     type="text"
-    class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid ksm-border-opacity-50
-      ksm-border-light focus:ksm-border-cyan ksm-rounded ksm-w-full ksm-p-2 ksm-mb-2"
+    class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid
+      ksm-border-opacity-50 ksm-border-light focus:ksm-border-cyan ksm-rounded
+      ksm-w-full ksm-p-2 ksm-mb-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (amount = value))}
     class:ksm-bg-gray-200={!isCouncilMember}
     disabled={!isCouncilMember}
     required={isCouncilMember} />
   {#if !isCouncilMember}
-    <div class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
+    <div
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
       Only council members are allowed to specify the amount
     </div>
   {:else}
@@ -111,18 +116,21 @@
   <div class="ksm-text-xs ksm-text-paragraph ksm-leading-loose">Reason:</div>
   <input
     type="text"
-    class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid ksm-border-opacity-50
-      ksm-border-light ksm-rounded ksm-block ksm-w-full ksm-p-2"
+    class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid
+      ksm-border-opacity-50 ksm-border-light ksm-rounded ksm-block ksm-w-full
+      ksm-p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (reason = value))}
     required />
   <button
-    class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white ksm-rounded ksm-text-sm"
+    class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white
+      ksm-rounded ksm-text-sm"
     class:ksm-bg-gray-500={!extrinsic || submitting}
     class:ksm-bg-accent={extrinsic}
     disabled={!extrinsic || submitting}>
     {#if submitting}
       <svg
-        class="ksm-animate-spin ksm--ml-2 ksm-mr-3 ksm-h-5 ksm-w-5 ksm-text-white"
+        class="ksm-animate-spin ksm--ml-2 ksm-mr-3 ksm-h-5 ksm-w-5
+          ksm-text-white"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24">
@@ -143,7 +151,8 @@
       {submitting ? 'Processing...' : 'Propose Tip'}</span>
   </button>
   <div
-    class="ksm-block ksm-mt-4 ksm-px-4 ksm-py-2 ksm-rounded ksm-text-white ksm-text-sm ksm-bg-red-500"
+    class="ksm-block ksm-mt-4 ksm-px-4 ksm-py-2 ksm-rounded ksm-text-white
+      ksm-text-sm ksm-bg-red-500"
     class:ksm-hidden={!message}
     on:click={() => (message = null)}>
     {message}
