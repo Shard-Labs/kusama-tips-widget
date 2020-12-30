@@ -28,11 +28,9 @@
         context.beneficiary,
         parseInput(value, $provider.registry.chainDecimals)
       );
-      let queryInfo = await $provider.rpc.payment.queryInfo(extrinsic.toHex());
-      let existentialDeposit = $provider.consts.balances.existentialDeposit;
-      let fee = queryInfo.partialFee.add(existentialDeposit);
 
-      estimatedFee = formatBalance(fee, {
+      let paymentInfo = await extrinsic.paymentInfo($selectedAccount.address);
+      estimatedFee = formatBalance(paymentInfo.partialFee, {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
         withUnit: $provider.registry.chainToken,
@@ -55,23 +53,21 @@
 
   const onSubmit = async () => {
     submitting = true;
-    extrinsic
-      .signAndSend($selectedAccount.address, async (response) => {
-        if (!response.isFinalized) return;
-        try {
-          await transactionHandler(response);
-          multistep.nextStep({
-            type: "donate",
-            message: `Successfully donated ${amount} ${tokenSymbol}`,
-            address: encodeAddress($selectedAccount.address, 2),
-          });
-        } catch (err) {
-          message = err.message;
-        }
-        submitting = false;
-        updateBalance();
-      })
-      .finally(() => (submitting = false));
+    extrinsic.signAndSend($selectedAccount.address, async (response) => {
+      if (!response.isFinalized) return;
+      try {
+        await transactionHandler(response);
+        multistep.nextStep({
+          type: "donate",
+          message: `Successfully donated ${amount} ${tokenSymbol}`,
+          address: encodeAddress($selectedAccount.address, 2),
+        });
+      } catch (err) {
+        message = err.message;
+      }
+      submitting = false;
+      updateBalance();
+    });
   };
 </script>
 
