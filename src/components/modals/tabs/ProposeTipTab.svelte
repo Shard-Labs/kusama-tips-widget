@@ -33,7 +33,11 @@
             context.beneficiary,
             parseInput(amount, $provider.registry.chainDecimals),
           ]
-        : [reason, context.beneficiary];
+        : 
+          [
+            `${window.location.origin} - ${reason}`, 
+            context.beneficiary
+          ];
 
       extrinsic = $provider.tx.treasury[method](...params);
       let queryInfo = await $provider.rpc.payment.queryInfo(extrinsic.toHex());
@@ -104,7 +108,14 @@
   {#if !isCouncilMember}
     <div
       class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
-      Only council members are allowed to specify the amount
+      You are proposing a tip from the Kusama Treasury. In order to do so a bond
+      is required. If the Council passes the proposal, you will be entitled to
+      20% of the final tip amount and your bond will be unlocked. How the final
+      tip amount is calculated, as well as other details, can be found <a
+        href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
+        target=" _blank"
+        rel="noopener noreferrer"
+        class="ksm-underline">here</a>.
     </div>
   {:else}
     <div
