@@ -55,21 +55,23 @@
 
   const onSubmit = async () => {
     submitting = true;
-    extrinsic.signAndSend($selectedAccount.address, async (response) => {
-      if (!response.isFinalized) return;
-      try {
-        await transactionHandler(response);
-        multistep.nextStep({
-          type: "donate",
-          message: `Successfully donated ${amount} ${tokenSymbol}`,
-          address: encodeAddress($selectedAccount.address, 2),
-        });
-      } catch (err) {
-        message = err.message;
-      }
-      submitting = false;
-      updateBalance();
-    });
+    extrinsic
+      .signAndSend($selectedAccount.address, async (response) => {
+        if (!response.isFinalized) return;
+        try {
+          await transactionHandler(response);
+          multistep.nextStep({
+            type: "donate",
+            message: `Successfully donated ${amount} ${tokenSymbol}`,
+            address: encodeAddress($selectedAccount.address, 2),
+          });
+        } catch (err) {
+          message = err.message;
+        }
+        submitting = false;
+        updateBalance();
+      })
+      .finally(() => (submitting = false));
   };
 </script>
 
@@ -88,9 +90,9 @@
     on:keyup={({ target: { value } }) => debounce(value)}
     required />
   <div
-    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose"
+    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
     class:ksm-hidden={!estimatedFee}>
-    Estimated fee: {estimatedFee}
+    Fees of {estimatedFee} will be applied to the submission
   </div>
   <button
     class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white

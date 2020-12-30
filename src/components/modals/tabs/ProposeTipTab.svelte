@@ -26,18 +26,15 @@
     extrinsic = null;
 
     timer = setTimeout(async () => {
-      const method = isCouncilMember ? "tipNew" : "reportAwesome";
-      const params = isCouncilMember
-        ? [
-            `${window.location.origin} - ${reason}`,
-            context.beneficiary,
-            parseInput(amount, $provider.registry.chainDecimals),
-          ]
-        : 
-          [
-            `${window.location.origin} - ${reason}`, 
-            context.beneficiary
-          ];
+      const method = isCouncilMember && amount ? "tipNew" : "reportAwesome";
+      const params =
+        isCouncilMember && amount
+          ? [
+              `${window.location.origin} - ${reason}`,
+              context.beneficiary,
+              parseInput(amount, $provider.registry.chainDecimals),
+            ]
+          : [`${window.location.origin} - ${reason}`, context.beneficiary];
 
       extrinsic = $provider.tx.treasury[method](...params);
       let queryInfo = await $provider.rpc.payment.queryInfo(extrinsic.toHex());
@@ -72,57 +69,50 @@
 
   const onSubmit = async () => {
     submitting = true;
-    extrinsic.signAndSend($selectedAccount.address, async (response) => {
-      if (!response.isFinalized) return;
-      try {
-        await transactionHandler(response);
-        multistep.nextStep({
-          type: "proposal",
-          message: `You successfully proposed a tip!`,
-        });
-      } catch (err) {
-        message = err.message;
-      }
-      submitting = false;
-      updateBalance();
-    });
+    extrinsic
+      .signAndSend($selectedAccount.address, async (response) => {
+        if (!response.isFinalized) return;
+        try {
+          await transactionHandler(response);
+          multistep.nextStep({
+            type: "proposal",
+            message: `You successfully proposed a tip!`,
+          });
+        } catch (err) {
+          message = err.message;
+        }
+        submitting = false;
+        updateBalance();
+      })
+      .finally(() => (submitting = false));
   };
 </script>
 
 <form on:submit|preventDefault={onSubmit}>
-  <div class="ksm-flex ksm-justify-between ksm-mt-2 ksm-leading-loose">
-    <span class="ksm-text-xs ksm-text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
-    <span
-      class="ksm-text-xs ksm-text-paragraph"
-      class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
+  <div
+    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
+    You are proposing a tip from the Kusama Treasury. In order to do so a bond
+    is required. If the Council passes the proposal, you will be entitled to 20%
+    of the final tip amount and your bond will be unlocked. How the final tip
+    amount is calculated, as well as other details, can be found <a
+      href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
+      target=" _blank"
+      rel="noopener noreferrer"
+      class="ksm-underline">here</a>.
   </div>
-  <input
-    type="text"
-    class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid
-      ksm-border-opacity-50 ksm-border-light focus:ksm-border-cyan ksm-rounded
-      ksm-w-full ksm-p-2 ksm-mb-2"
-    on:keyup={({ target: { value } }) => debounce(value, (value) => (amount = value))}
-    class:ksm-bg-gray-200={!isCouncilMember}
-    disabled={!isCouncilMember}
-    required={isCouncilMember} />
-  {#if !isCouncilMember}
-    <div
-      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
-      You are proposing a tip from the Kusama Treasury. In order to do so a bond
-      is required. If the Council passes the proposal, you will be entitled to
-      20% of the final tip amount and your bond will be unlocked. How the final
-      tip amount is calculated, as well as other details, can be found <a
-        href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
-        target=" _blank"
-        rel="noopener noreferrer"
-        class="ksm-underline">here</a>.
+  {#if isCouncilMember}
+    <div class="ksm-flex ksm-justify-between ksm-mt-2 ksm-leading-loose">
+      <span class="ksm-text-xs ksm-text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
+      <span
+        class="ksm-text-xs ksm-text-paragraph"
+        class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
     </div>
-  {:else}
-    <div
-      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2"
-      class:ksm-hidden={!estimatedFee}>
-      Estimated fee: {estimatedFee}
-    </div>
+    <input
+      type="text"
+      class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid
+        ksm-border-opacity-50 ksm-border-light focus:ksm-border-cyan ksm-rounded
+        ksm-w-full ksm-p-2 ksm-mb-2"
+      on:keyup={({ target: { value } }) => debounce(value, (value) => (amount = value))} />
   {/if}
   <div class="ksm-text-xs ksm-text-paragraph ksm-leading-loose">Reason:</div>
   <input
@@ -132,6 +122,11 @@
       ksm-p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (reason = value))}
     required />
+  <div
+    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+    class:ksm-hidden={!estimatedFee}>
+    Fees of {estimatedFee} will be applied to the submission
+  </div>
   <button
     class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white
       ksm-rounded ksm-text-sm"
