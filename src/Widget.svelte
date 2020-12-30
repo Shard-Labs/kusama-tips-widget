@@ -10,6 +10,7 @@
 
   export let beneficiary;
   export let element;
+  export let allowProposing = true;
 
   let showModal = false;
   let multistep = createMultistep();
@@ -17,6 +18,7 @@
   setContext("global", {
     beneficiary,
     multistep,
+    allowProposing,
     accounts: writable([]),
     selectedAccount: writable(null),
     provider: createApiProvider(),

@@ -10,10 +10,11 @@
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
   let provider = context.provider;
+  let allowProposing = context.allowProposing;
 
   let items = [
-    { label: "Donate", component: DonateTab },
-    { label: "Propose Tip", component: ProposeTipTab },
+    { label: "Donate", component: DonateTab, enabled: true },
+    { label: "Propose Tip", component: ProposeTipTab, enabled: allowProposing },
   ];
 
   let loading = true;
