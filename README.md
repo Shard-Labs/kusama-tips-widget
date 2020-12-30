@@ -30,3 +30,14 @@ Use custom button element
   });
 </script>
 ```
+
+You can disable proposals by passing `allowProposing: false` to the options object.
+
+```html
+<script>
+  kusamaTipsWidget.bind(document.body, {
+    beneficiary: "5EhR5PRsX...",
+    allowProposing: false,
+  });
+</script>
+```
