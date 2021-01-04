@@ -11,6 +11,7 @@
   export let beneficiary;
   export let element;
   export let allowProposing = true;
+  export let buttonText = "Kusama Tips";
 
   let showModal = false;
   let multistep = createMultistep();
@@ -52,7 +53,7 @@
       on:click={() => (showModal = true)}
       class="ksm-inline-block ksm-bg-accent ksm-py-2 ksm-px-6 ksm-m-auto
         ksm-text-white ksm-rounded">
-      Kusama Tips
+      {buttonText}
     </button>
   {/if}
   {#if showModal}
