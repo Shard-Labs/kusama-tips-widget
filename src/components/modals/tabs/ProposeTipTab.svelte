@@ -87,9 +87,11 @@
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
     You are proposing a tip from the Kusama Treasury. In order to do so a bond
-    is required. If the Council passes the proposal, you will be entitled to 20%
-    of the final tip amount and your bond will be unlocked. How the final tip
-    amount is calculated, as well as other details, can be found <a
+    is required. Only open tips for the the content you truly believe in. If the
+    Council passes the proposal, you will be entitled to 20% of the final tip
+    amount and your bond will be unlocked. If the Council cancels the tip, bond
+    will be slashed. How the final tip amount is calculated, as well as other
+    details, can be found <a
       href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
       target=" _blank"
       rel="noopener noreferrer"
