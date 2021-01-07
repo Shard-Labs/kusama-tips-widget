@@ -6,4 +6,7 @@
   padding: 0;
   margin: 0;
   font-family: apple-system, BlinkMacSystemFont, Ubuntu, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #1a202c;
+  line-height: 1.5;
 }
