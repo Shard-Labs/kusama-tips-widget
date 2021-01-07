@@ -13,8 +13,8 @@
   let allowProposing = context.allowProposing;
 
   let items = [
-    { label: "Donate", component: DonateTab, enabled: true },
-    { label: "Propose Tip", component: ProposeTipTab, enabled: allowProposing },
+    { label: "Donate", component: DonateTab },
+    { label: "Propose Tip", component: ProposeTipTab },
   ];
 
   let loading = true;
@@ -55,8 +55,10 @@
         <Loader />
         <p class="ksm-text-sm ksm-text-paragraph">Connecting to Kusama...</p>
       </div>
-    {:else}
+    {:else if allowProposing}
       <Tabs {items} />
+    {:else}
+      <DonateTab />
     {/if}
   </div>
 </Modal>

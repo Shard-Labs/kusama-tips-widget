@@ -66,20 +66,22 @@
 
   const onSubmit = async () => {
     submitting = true;
-    extrinsic.signAndSend($selectedAccount.address, async (response) => {
-      if (!response.isFinalized) return;
-      try {
-        await transactionHandler(response);
-        multistep.nextStep({
-          type: "proposal",
-          message: `You successfully proposed a tip!`,
-        });
-      } catch (err) {
-        message = err.message;
-      }
-      submitting = false;
-      updateBalance();
-    });
+    extrinsic
+      .signAndSend($selectedAccount.address, async (response) => {
+        if (!response.isFinalized) return;
+        try {
+          await transactionHandler(response);
+          multistep.nextStep({
+            type: "proposal",
+            message: `You successfully proposed a tip!`,
+          });
+        } catch (err) {
+          message = err.message;
+        }
+        submitting = false;
+        updateBalance();
+      })
+      .catch(() => (submitting = false));
   };
 </script>
 

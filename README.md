@@ -37,6 +37,7 @@ You can disable proposals by passing `allowProposing: false` to the options obje
 <script>
   kusamaTipsWidget.bind(document.body, {
     beneficiary: "5EhR5PRsX...",
+    buttonText: "Donate KSM",
     allowProposing: false,
   });
 </script>
