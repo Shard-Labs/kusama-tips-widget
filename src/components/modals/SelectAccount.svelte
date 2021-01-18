@@ -9,7 +9,7 @@
 
 <Modal on:close>
   <h2 slot="header" class="ksm-text-lg ksm-text-gray-900">
-    Select Polkadot Account
+    Select Your Account
   </h2>
   <ul
     slot="content"

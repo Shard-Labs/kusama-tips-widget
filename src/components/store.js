@@ -1,6 +1,9 @@
 import { writable } from "svelte/store";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 
+/**
+ * Creates a writable for modal multistep handling
+ */
 export function createMultistep() {
   const initialState = { index: 0, data: null };
   const { subscribe, set, update } = writable(initialState);
@@ -13,6 +16,9 @@ export function createMultistep() {
   };
 }
 
+/**
+ * Creates a writable that contains an api provider
+ */
 export function createApiProvider() {
   const { subscribe, set, update } = writable(null);
 

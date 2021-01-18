@@ -4,6 +4,10 @@
   const dispatch = createEventDispatcher();
   const close = () => dispatch("close");
 
+  /**
+   * Close modal on Escape
+   * @param e
+   */
   const handleKeydown = (e) => {
     if (e.key === "Escape") {
       close();

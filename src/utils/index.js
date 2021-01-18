@@ -2,6 +2,11 @@ import BN from "bn.js";
 
 const BN_TEN = new BN(10);
 
+/**
+ * Parses string input and returns a big number of plancks
+ * @param {*} value 
+ * @param {*} decimals 
+ */
 export const parseInput = (value, decimals) => {
   const decimal = value.trim().match(/^(\d+)\.(\d+)$/);
   if (decimal) {
@@ -16,6 +21,10 @@ export const parseInput = (value, decimals) => {
   return new BN(value.trim()).mul(BN_TEN.pow(new BN(decimals)));
 };
 
+/**
+ * Transaction handler. Promise resolves on `ExtrinsicSuccess` event, otherwise rejects.
+ * @param {*} response 
+ */
 export const transactionHandler = (response) => {
   return new Promise((resolve, reject) => {
     response.events

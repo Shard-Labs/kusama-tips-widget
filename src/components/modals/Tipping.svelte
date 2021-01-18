@@ -12,12 +12,15 @@
   let provider = context.provider;
   let allowProposing = context.allowProposing;
 
+  let loading = true;
   let items = [
     { label: "Donate", component: DonateTab },
     { label: "Propose Tip", component: ProposeTipTab },
   ];
 
-  let loading = true;
+  /**
+   * Subscribe to the api provider writable and set the signer for the selected account
+   */
   let unsub = provider.subscribe(async (api) => {
     if (!api) return;
     const injector = await web3FromAddress($selectedAccount.address);
@@ -25,6 +28,9 @@
   });
   provider.connect().then(() => (loading = false));
 
+  /**
+   * Remove subscribtion once component is destroyed
+  */
   onDestroy(() => unsub());
 </script>
 

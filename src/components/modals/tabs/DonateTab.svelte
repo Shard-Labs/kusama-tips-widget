@@ -24,12 +24,17 @@
 
     timer = setTimeout(async () => {
       amount = value;
+
+      // create a "transfer" extrinsic
       extrinsic = $provider.tx.balances.transfer(
         context.beneficiary,
-        parseInput(value, $provider.registry.chainDecimals)
+        parseInput(value, $provider.registry.chainDecimals) // parse input to BN
       );
 
+      // get the payment info to display the fee
       let paymentInfo = await extrinsic.paymentInfo($selectedAccount.address);
+
+      // format the fee
       estimatedFee = formatBalance(paymentInfo.partialFee, {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
@@ -38,6 +43,9 @@
     }, 300);
   };
 
+  /**
+   * Update balance of the selected account
+   */
   const updateBalance = async () => {
     let account = await $provider.query.system.account(
       $selectedAccount.address
@@ -46,11 +54,14 @@
   };
 
   onMount(async () => {
-    updateBalance();
+    updateBalance(); // set the initial balance
     let properties = await $provider.rpc.system.properties();
-    tokenSymbol = properties.tokenSymbol;
+    tokenSymbol = properties.tokenSymbol; // get the token symbol
   });
 
+  /**
+   * Handle form submission
+   */
   const onSubmit = async () => {
     submitting = true;
     extrinsic
@@ -58,16 +69,17 @@
         if (!response.isFinalized) return;
         try {
           await transactionHandler(response);
+          // if transaction is successful, move to the confirmation step
           multistep.nextStep({
             type: "donate",
             message: `Successfully donated ${amount} ${tokenSymbol}`,
-            address: encodeAddress($selectedAccount.address, 2),
+            address: encodeAddress($selectedAccount.address, 2), // encode address with SS58 index of 2 (Kusama)
           });
         } catch (err) {
           message = err.message;
         }
         submitting = false;
-        updateBalance();
+        updateBalance(); // update balance once transaction is finalized
       })
       .catch(() => (submitting = false));
   };

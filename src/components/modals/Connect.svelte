@@ -5,11 +5,14 @@
 
   let context = getContext("global");
 
+  /**
+   * Connect to the wallet and set accounts in the global context
+   */
   const connect = async () => {
     const extensions = await web3Enable("Kusama Tips Widget");
 
     if (extensions.length === 0) {
-      alert("Please install Polkadot extension!");
+      alert("Missing polkadot.{js} extension. Please install the extension and try again. https://polkadot.js.org/extension/");
       context.multistep.reset();
       return;
     }
@@ -19,11 +22,11 @@
 </script>
 
 <Modal on:close>
-  <h2 slot="header" class="ksm-text-lg ksm-text-dark">Connect to Polkadot</h2>
+  <h2 slot="header" class="ksm-text-lg ksm-text-dark">Connect to Kusama</h2>
   <div slot="content">
     <div class="ksm-bg-white ksm-rounded ksm-shadow ksm-p-8 ksm-mb-8">
       <p class="ksm-text-sm ksm-text-dark ksm-mb-4">
-        In order to use a Tip or Donate button you must have Polkadot Wallet
+        In order to use a Tip or Donate button you must have a compatible Kusama Wallet
         installed and funded with tokens.
       </p>
       <div class="ksm-text-base ksm-text-paragraph">

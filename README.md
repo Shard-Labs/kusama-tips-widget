@@ -10,7 +10,13 @@ Using CDN: Add the following script to the end of your `<head>` section.
 
 ## Usage
 
-Binding the widget
+Binding the widget:
+
+```js
+kusamaTipsWidget.bind(target, options)
+```
+
+Minimal example:
 
 ```html
 <script>
@@ -20,7 +26,7 @@ Binding the widget
 </script>
 ```
 
-Use custom button element
+Use custom button element:
 
 ```html
 <script>
@@ -31,7 +37,7 @@ Use custom button element
 </script>
 ```
 
-You can disable proposals by passing `allowProposing: false` to the options object.
+You can disable proposals by passing `allowProposing: false` to the options object:
 
 ```html
 <script>
@@ -42,3 +48,12 @@ You can disable proposals by passing `allowProposing: false` to the options obje
   });
 </script>
 ```
+
+## Options
+
+| Property | Description | Required | Default |
+|-|-|-|-|
+| beneficiary | The account to be credited with the assets. Use your substrate address here. | Yes | - |
+| element | A custom DOM element on which a click handler will be registered. | No | - |
+| buttonText | A custom text for the button if the default value does not fit your use case. | No | Kusama Tips |
+| allowProposing | A flag to control tip proposing. This flag can be set to `false` in cases where tip proposing is not desired or should not be allowed. Tip proposing is allowed by default. | No | true |

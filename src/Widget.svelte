@@ -8,14 +8,24 @@
   import Tipping from "./components/modals/Tipping.svelte";
   import Confirmation from "./components/modals/Confirmation.svelte";
 
+  /**
+   * Props
+   */
   export let beneficiary;
   export let element;
   export let allowProposing = true;
   export let buttonText = "Kusama Tips";
 
   let showModal = false;
+
+  /**
+   * Creates multistep store
+   */
   let multistep = createMultistep();
 
+  /**
+   * Sets global context to be used across the widget
+  */
   setContext("global", {
     beneficiary,
     multistep,
@@ -25,11 +35,17 @@
     provider: createApiProvider(),
   });
 
+  /**
+   * Hide the modal and reset the multistep handler
+   */
   function handleClose() {
     showModal = false;
     multistep.reset();
   }
 
+  /**
+   * Modals
+   */
   let modals = [
     { component: Connect },
     { component: SelectAccount },
@@ -40,6 +56,9 @@
   let selected;
   multistep.subscribe(({ index }) => (selected = modals[index]));
 
+  /**
+   * Register onclick handler if element prop is provided
+  */
   if (element) {
     element.onclick = function () {
       showModal = true;

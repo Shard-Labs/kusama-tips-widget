@@ -26,7 +26,11 @@
     extrinsic = null;
 
     timer = setTimeout(async () => {
+      // determine which extrinsic to use depending on if user a member
+      // of the council and if amount is specified
       const method = isCouncilMember && amount ? "tipNew" : "reportAwesome";
+
+      // create extrinsic parameters
       const params =
         isCouncilMember && amount
           ? [
@@ -36,8 +40,13 @@
             ]
           : [`${window.location.origin} - ${reason}`, context.beneficiary];
 
+      // create the extrinsic from the treasury module
       extrinsic = $provider.tx.treasury[method](...params);
+
+      // get the payment info to display the fee
       let paymentInfo = await extrinsic.paymentInfo($selectedAccount.address);
+
+      // format the fee
       estimatedFee = formatBalance(paymentInfo.partialFee, {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
@@ -46,6 +55,9 @@
     }, 300);
   };
 
+  /**
+   * Update balance of the selected account
+   */
   const updateBalance = async () => {
     let account = await $provider.query.system.account(
       $selectedAccount.address
@@ -55,15 +67,19 @@
 
   onMount(async () => {
     let properties = await $provider.rpc.system.properties();
-    tokenSymbol = properties.tokenSymbol;
+    tokenSymbol = properties.tokenSymbol; // get token symbol
 
+    // check if selected account is a member of the council
     if ($provider.query.council) {
       const members = await $provider.query.council.members();
       isCouncilMember = (members || []).includes($selectedAccount.address);
     }
-    updateBalance();
+    updateBalance(); // set the initial balance
   });
 
+  /**
+   * Handle form submission
+   */
   const onSubmit = async () => {
     submitting = true;
     extrinsic
@@ -71,6 +87,7 @@
         if (!response.isFinalized) return;
         try {
           await transactionHandler(response);
+          // If transaction is successful, move to the confirmation step
           multistep.nextStep({
             type: "proposal",
             message: `You successfully proposed a tip!`,
@@ -79,7 +96,7 @@
           message = err.message;
         }
         submitting = false;
-        updateBalance();
+        updateBalance(); // update balance once transaction is finalized
       })
       .catch(() => (submitting = false));
   };
