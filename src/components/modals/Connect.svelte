@@ -1,6 +1,7 @@
 <script>
   import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
   import { getContext } from "svelte";
+  import { ORIGIN_NAME } from "../../utils/constants";
   import Modal from "../Modal.svelte";
 
   let context = getContext("global");
@@ -9,8 +10,7 @@
    * Connect to the wallet and set accounts in the global context
    */
   const connect = async () => {
-    const extensions = await web3Enable("Kusama Tips Widget");
-
+    const extensions = await web3Enable(ORIGIN_NAME);
     if (extensions.length === 0) {
       alert("Missing polkadot.{js} extension. Please install the extension and try again. https://polkadot.js.org/extension/");
       context.multistep.reset();

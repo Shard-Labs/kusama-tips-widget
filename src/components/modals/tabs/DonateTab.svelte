@@ -9,7 +9,7 @@
   let multistep = context.multistep;
   let provider = context.provider;
   let balance;
-  let amount;
+  let input;
   let submitting = false;
   let tokenSymbol;
 
@@ -19,22 +19,31 @@
   let message;
 
   const debounce = (value) => {
-    clearTimeout(timer);
+    input = value;
     extrinsic = null;
+    estimatedFee = null;
 
+    if (!value) return;
+    
+    clearTimeout(timer);
     timer = setTimeout(async () => {
-      amount = value;
-
+      const amount = parseInput(value, $provider.registry.chainDecimals); // parse input to BN
+      
       // create a "transfer" extrinsic
-      extrinsic = $provider.tx.balances.transfer(
+      const localExtrinsic = $provider.tx.balances.transfer(
         context.beneficiary,
-        parseInput(value, $provider.registry.chainDecimals) // parse input to BN
+        amount
       );
 
       // get the payment info to display the fee
-      let paymentInfo = await extrinsic.paymentInfo($selectedAccount.address);
+      let paymentInfo = await localExtrinsic.paymentInfo($selectedAccount.address);
+      let amountWithFee = amount.add(paymentInfo.partialFee);
 
-      // format the fee
+      // check for insufficient balance
+      if (amountWithFee.cmp(balance) > 0) 
+        return;
+
+      extrinsic = localExtrinsic;
       estimatedFee = formatBalance(paymentInfo.partialFee, {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
@@ -72,7 +81,7 @@
           // if transaction is successful, move to the confirmation step
           multistep.nextStep({
             type: "donate",
-            message: `Successfully donated ${amount} ${tokenSymbol}`,
+            message: `Successfully donated ${input} ${tokenSymbol}`,
             address: encodeAddress($selectedAccount.address, 2), // encode address with SS58 index of 2 (Kusama)
           });
         } catch (err) {

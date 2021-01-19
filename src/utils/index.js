@@ -58,3 +58,11 @@ export const transactionHandler = (response) => {
       });
   });
 };
+
+export const sanitizeUrl = (location) => {
+  let url = window.location.toString();
+  if (location.search.indexOf('utm_') != -1) {
+    url = url.replace(/(\&|\?)utm([_a-z0-9=]+)/g, "");
+  }
+  return url;
+}

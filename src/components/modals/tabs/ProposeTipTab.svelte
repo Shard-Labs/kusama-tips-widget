@@ -1,7 +1,7 @@
 <script>
   import { formatBalance } from "@polkadot/util";
   import { getContext, onMount } from "svelte";
-  import { parseInput, transactionHandler } from "../../../utils/index.js";
+  import { parseInput, sanitizeUrl, transactionHandler } from "../../../utils/index.js";
 
   let context = getContext("global");
   let selectedAccount = context.selectedAccount;
@@ -12,41 +12,60 @@
   let balance;
   let tokenSymbol;
 
-  let amount;
-  let reason;
-
   let timer;
   let extrinsic;
   let estimatedFee;
   let message;
 
+  let form = {
+    amount: null,
+    reason: null,
+    validate() { 
+      if (isCouncilMember) {
+        return !!this.amount && !!this.reason;
+      }
+      return !!this.reason;
+    }, 
+  }
+
   const debounce = (value, setter) => {
     setter(value);
-    clearTimeout(timer);
     extrinsic = null;
+    estimatedFee = null;
 
+    if (!form.validate())
+      return;
+
+    clearTimeout(timer);
     timer = setTimeout(async () => {
-      // determine which extrinsic to use depending on if user a member
-      // of the council and if amount is specified
-      const method = isCouncilMember && amount ? "tipNew" : "reportAwesome";
+      // determine extrinsic depending on if user is a member of the council
+      const method = isCouncilMember ? "tipNew" : "reportAwesome";
+
+      // sanitize url (remove utm)
+      const url = sanitizeUrl(window.location);
 
       // create extrinsic parameters
       const params =
-        isCouncilMember && amount
+        isCouncilMember
           ? [
-              `${window.location.origin} - ${reason}`,
+              `${url} - ${form.reason}`,
               context.beneficiary,
-              parseInput(amount, $provider.registry.chainDecimals),
+              parseInput(form.amount, $provider.registry.chainDecimals),
             ]
-          : [`${window.location.origin} - ${reason}`, context.beneficiary];
+          : [`${url} - ${form.reason}`, context.beneficiary];
 
       // create the extrinsic from the treasury module
-      extrinsic = $provider.tx.treasury[method](...params);
+      const localExtrinsic = $provider.tx.treasury[method](...params);
 
       // get the payment info to display the fee
-      let paymentInfo = await extrinsic.paymentInfo($selectedAccount.address);
+      let paymentInfo = await localExtrinsic.paymentInfo($selectedAccount.address);
 
+      // check for insufficient balance
+      if (paymentInfo.partialFee.cmp(balance) > 0) 
+        return;
+        
       // format the fee
+      extrinsic = localExtrinsic;
       estimatedFee = formatBalance(paymentInfo.partialFee, {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
@@ -87,7 +106,7 @@
         if (!response.isFinalized) return;
         try {
           await transactionHandler(response);
-          // If transaction is successful, move to the confirmation step
+          // if transaction is successful, move to the confirmation step
           multistep.nextStep({
             type: "proposal",
             message: `You successfully proposed a tip!`,
@@ -106,10 +125,7 @@
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
     You are proposing a tip from the Kusama Treasury. In order to do so a bond
-    is required. Only open tips for the the content you truly believe in. If the
-    Council passes the proposal, you will be entitled to 20% of the final tip
-    amount and your bond will be unlocked. If the Council cancels the tip, bond
-    will be slashed. How the final tip amount is calculated, as well as other
+    is required. If the Council cancels the tip, the bond will be slashed. How the final tip amount is calculated, as well as other
     details, can be found <a
       href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
       target=" _blank"
@@ -128,7 +144,7 @@
       class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid
         ksm-border-opacity-50 ksm-border-light focus:ksm-border-cyan ksm-rounded
         ksm-w-full ksm-p-2 ksm-mb-2"
-      on:keyup={({ target: { value } }) => debounce(value, (value) => (amount = value))} />
+      on:keyup={({ target: { value } }) => debounce(value, (value) => (form.amount = value))} />
   {/if}
   <div class="ksm-text-xs ksm-text-paragraph ksm-leading-loose">Reason:</div>
   <input
@@ -136,7 +152,7 @@
     class="ksm-bg-white focus:ksm-bg-background ksm-border ksm-border-solid
       ksm-border-opacity-50 ksm-border-light ksm-rounded ksm-block ksm-w-full
       ksm-p-2"
-    on:keyup={({ target: { value } }) => debounce(value, (value) => (reason = value))}
+    on:keyup={({ target: { value } }) => debounce(value, (value) => (form.reason = value))}
     required />
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
