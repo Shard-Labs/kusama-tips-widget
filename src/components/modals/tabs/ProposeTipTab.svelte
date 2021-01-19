@@ -124,8 +124,7 @@
 <form on:submit|preventDefault={onSubmit}>
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
-    You are proposing a tip from the Kusama Treasury. In order to do so a bond
-    is required. If the Council cancels the tip, the bond will be slashed. How the final tip amount is calculated, as well as other
+    Here you can propose a tip from the Kusama Treasury. If you're not a member of the Council, a small bond is required in order to propose a tip. How the final tip amount is calculated, as well as other
     details, can be found <a
       href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
       target=" _blank"
