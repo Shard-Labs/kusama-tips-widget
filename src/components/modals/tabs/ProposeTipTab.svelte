@@ -124,19 +124,17 @@
 <form on:submit|preventDefault={onSubmit}>
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
-    Here you can propose a tip from the Kusama Treasury. If you're not a member of the Council, a small bond is required in order to propose a tip. How the final tip amount is calculated, as well as other
+    <p>Here you can propose a tip from the Kusama Treasury. If you're not a member of the Council, a small bond is required in order to propose a tip. How the final tip amount is calculated, as well as other
     details, can be found <a
-      href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
+      href="https://guide.kusama.network/docs/en/mirror-learn-treasury#tipping"
       target=" _blank"
       rel="noopener noreferrer"
-      class="ksm-underline">here</a>.
+      class="ksm-underline">here</a>.</p>
+    <p>The URL of this webpage will be added to your message.</p>
   </div>
   {#if isCouncilMember}
     <div class="ksm-flex ksm-justify-between ksm-mt-2 ksm-leading-loose">
       <span class="ksm-text-xs ksm-text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
-      <span
-        class="ksm-text-xs ksm-text-paragraph"
-        class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
     </div>
     <input
       type="text"
