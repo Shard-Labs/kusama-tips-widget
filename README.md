@@ -1,5 +1,7 @@
 # Kusama Tips Widget
 
+![build](https://github.com/Shard-Labs/kusama-tips-widget/workflows/Build/badge.svg)
+
 ## Install
 
 Using CDN: Add the following script to the end of your `<head>` section.
