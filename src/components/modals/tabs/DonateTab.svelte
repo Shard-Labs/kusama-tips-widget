@@ -16,12 +16,14 @@
   let timer;
   let extrinsic;
   let estimatedFee;
+  let insufficientBalance = false;
   let message;
 
   const debounce = (value) => {
     input = value;
     extrinsic = null;
     estimatedFee = null;
+    insufficientBalance = false;
 
     if (!value) return;
     
@@ -40,8 +42,10 @@
       let amountWithFee = amount.add(paymentInfo.partialFee);
 
       // check for insufficient balance
-      if (amountWithFee.cmp(balance) > 0) 
+      if (amountWithFee.cmp(balance) > 0) {
+        insufficientBalance = true;
         return;
+      }
 
       extrinsic = localExtrinsic;
       estimatedFee = formatBalance(paymentInfo.partialFee, {
@@ -111,7 +115,12 @@
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
     class:ksm-hidden={!estimatedFee}>
-    Fees of {estimatedFee} will be applied to the submission
+    Fees of {estimatedFee} will be applied to the transaction.
+  </div>
+  <div
+    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+    class:ksm-hidden={!insufficientBalance}>
+    Please enter an amount smaller than your available balance.
   </div>
   <button
     class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white

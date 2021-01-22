@@ -15,6 +15,8 @@
   let timer;
   let extrinsic;
   let estimatedFee;
+  let estimatedBond;
+  let insufficientBalance = false;
   let message;
 
   let form = {
@@ -32,6 +34,8 @@
     setter(value);
     extrinsic = null;
     estimatedFee = null;
+    estimatedBond = null;
+    insufficientBalance = false;
 
     if (!form.validate())
       return;
@@ -60,17 +64,32 @@
       // get the payment info to display the fee
       let paymentInfo = await localExtrinsic.paymentInfo($selectedAccount.address);
 
+      let bondValue = 0;
+      if(!isCouncilMember) {
+        const tipReportDepositBase = $provider.consts.treasury.tipReportDepositBase.toNumber();
+        const dataDepositPerByte = $provider.consts.treasury.dataDepositPerByte.toNumber();
+
+        bondValue = tipReportDepositBase + params[0].length * dataDepositPerByte;
+      }
+
       // check for insufficient balance
-      if (paymentInfo.partialFee.cmp(balance) > 0) 
+      if (balance < Number(paymentInfo.partialFee) + Number(bondValue)) {
+        insufficientBalance = true;
         return;
-        
-      // format the fee
+      }
+      
       extrinsic = localExtrinsic;
-      estimatedFee = formatBalance(paymentInfo.partialFee, {
+
+      // format the fee and bond
+      const formatParams = {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
         withUnit: $provider.registry.chainToken,
-      });
+      };
+      estimatedFee = formatBalance(paymentInfo.partialFee, formatParams);
+      if(!isCouncilMember) {
+        estimatedBond = formatBalance(bondValue, formatParams);
+      }
     }, 300);
   };
 
@@ -151,10 +170,22 @@
       ksm-p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (form.reason = value))}
     required />
-  <div
-    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
-    class:ksm-hidden={!estimatedFee}>
-    Fees of {estimatedFee} will be applied to the submission
+  <div>
+    <span
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+      class:ksm-hidden={!estimatedFee}>
+      <p>Fees of {estimatedFee} will be applied to the submission.</p>
+    </span>
+    <span
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+      class:ksm-hidden={!estimatedBond}>
+      <p>The bond for this proposal will be {estimatedBond}.</p>
+    </span>
+    <span
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+      class:ksm-hidden={!insufficientBalance}>
+      <p>You do not have enough funds to propose the tip.</p>
+    </span>
   </div>
   <button
     class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white
