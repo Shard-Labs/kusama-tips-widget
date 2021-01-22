@@ -42,7 +42,7 @@
       const method = isCouncilMember ? "tipNew" : "reportAwesome";
 
       // sanitize url (remove utm)
-      const url = sanitizeUrl(window.location);
+      const url = sanitizeUrl(window.location.toString());
 
       // create extrinsic parameters
       const params =

@@ -62,7 +62,7 @@ export const transactionHandler = (response) => {
 export const sanitizeUrl = (location) => {
   let url = new URL(location);
   let urlParams = url.searchParams;
-  const utmParams = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"];
+  const utmParams = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
   for (const param of utmParams) {
     urlParams.delete(param);
   }
