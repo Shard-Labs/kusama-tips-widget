@@ -60,9 +60,11 @@ export const transactionHandler = (response) => {
 };
 
 export const sanitizeUrl = (location) => {
-  let url = window.location.toString();
-  if (location.search.indexOf('utm_') != -1) {
-    url = url.replace(/(\&|\?)utm([_a-z0-9=]+)/g, "");
+  let url = new URL(location);
+  let urlParams = url.searchParams;
+  const utmParams = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"];
+  for (const param of utmParams) {
+    urlParams.delete(param);
   }
   return url;
 }
