@@ -15,6 +15,8 @@
   let timer;
   let extrinsic;
   let estimatedFee;
+  let estimatedBond;
+  let insufficientBalance = false;
   let message;
 
   let form = {
@@ -32,6 +34,8 @@
     setter(value);
     extrinsic = null;
     estimatedFee = null;
+    estimatedBond = null;
+    insufficientBalance = false;
 
     if (!form.validate())
       return;
@@ -60,17 +64,32 @@
       // get the payment info to display the fee
       let paymentInfo = await localExtrinsic.paymentInfo($selectedAccount.address);
 
+      let bondValue = 0;
+      if(!isCouncilMember) {
+        const tipReportDepositBase = $provider.consts.treasury.tipReportDepositBase.toNumber();
+        const dataDepositPerByte = $provider.consts.treasury.dataDepositPerByte.toNumber();
+
+        bondValue = tipReportDepositBase + params[0].length * dataDepositPerByte;
+      }
+
       // check for insufficient balance
-      if (paymentInfo.partialFee.cmp(balance) > 0) 
+      if (balance < Number(paymentInfo.partialFee) + Number(bondValue)) {
+        insufficientBalance = true;
         return;
-        
-      // format the fee
+      }
+      
       extrinsic = localExtrinsic;
-      estimatedFee = formatBalance(paymentInfo.partialFee, {
+
+      // format the fee and bond
+      const formatParams = {
         withSi: true,
         decimals: $provider.registry.chainDecimals,
         withUnit: $provider.registry.chainToken,
-      });
+      };
+      estimatedFee = formatBalance(paymentInfo.partialFee, formatParams);
+      if(!isCouncilMember) {
+        estimatedBond = formatBalance(bondValue, formatParams);
+      }
     }, 300);
   };
 
@@ -124,19 +143,17 @@
 <form on:submit|preventDefault={onSubmit}>
   <div
     class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm--mt-2 ksm-mb-2">
-    Here you can propose a tip from the Kusama Treasury. If you're not a member of the Council, a small bond is required in order to propose a tip. How the final tip amount is calculated, as well as other
+    <p>Here you can propose a tip from the Kusama Treasury. If you're not a member of the Council, a small bond is required in order to propose a tip. How the final tip amount is calculated, as well as other
     details, can be found <a
-      href="https://wiki.polkadot.network/docs/en/learn-treasury#tipping"
+      href="https://guide.kusama.network/docs/en/mirror-learn-treasury#tipping"
       target=" _blank"
       rel="noopener noreferrer"
-      class="ksm-underline">here</a>.
+      class="ksm-underline">here</a>.</p>
+    <p>The URL of this webpage will be added to your message.</p>
   </div>
   {#if isCouncilMember}
     <div class="ksm-flex ksm-justify-between ksm-mt-2 ksm-leading-loose">
       <span class="ksm-text-xs ksm-text-paragraph">Amount {tokenSymbol ? `(${tokenSymbol})` : ''}</span>
-      <span
-        class="ksm-text-xs ksm-text-paragraph"
-        class:invisible={!balance}>Available: {balance && balance.toHuman()}</span>
     </div>
     <input
       type="text"
@@ -153,10 +170,22 @@
       ksm-p-2"
     on:keyup={({ target: { value } }) => debounce(value, (value) => (form.reason = value))}
     required />
-  <div
-    class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
-    class:ksm-hidden={!estimatedFee}>
-    Fees of {estimatedFee} will be applied to the submission
+  <div>
+    <span
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+      class:ksm-hidden={!estimatedFee}>
+      <p>Fees of {estimatedFee} will be applied to the submission.</p>
+    </span>
+    <span
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+      class:ksm-hidden={!estimatedBond}>
+      <p>The bond for this proposal will be {estimatedBond}.</p>
+    </span>
+    <span
+      class="ksm-text-xs ksm-text-paragraph ksm-leading-loose ksm-mb-2"
+      class:ksm-hidden={!insufficientBalance}>
+      <p>You do not have enough funds to propose the tip.</p>
+    </span>
   </div>
   <button
     class="ksm-flex ksm-py-2 ksm-px-6 ksm-mx-auto ksm-mt-4 ksm-text-white
